@@ -42,3 +42,34 @@ fi
 # but always written in appending.
 LOG='.log'
 
+# these signals are used for communicating with each process(i.e. reader, timer, ticker, controller).
+# Note:
+#   in shell enviroment, should Drop the SIG prefix, just input the signal name.
+SIGNAL_TERM=TERM
+SIGNAL_INT=INT
+SIGNAL_STOP=STOP
+SIGNAL_CONT=CONT
+SIGNAL_LEVEL_UP=USR1
+SIGNAL_RESET_LEVEL=USR2
+SIGNAL_RESTART_LOCKDOWN_TIMER=USR1
+SIGNAL_RELEASE_INPUT=USR1
+SIGNAL_CAPTURE_INPUT=USR2
+
+# Those are commands sent to controller by key press processing code
+# In controller they are used as index to retrieve actual function from array
+QUIT=0
+RIGHT=1
+LEFT=2
+FALL=3
+SOFT_DROP=4
+HARD_DROP=5
+ROTATE_CW=6
+ROTATE_CCW=7
+HOLD=8
+TOGGLE_BEEP=9
+TOGGLE_COLOR=10
+TOGGLE_HELP=11
+REFRESH_SCREEN=12
+LOCKDOWN=13
+PAUSE=14
+NOTIFY_PID=15
