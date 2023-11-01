@@ -292,3 +292,39 @@ eval piece_"$I_TETRIMINO"_lowest_"$NORTH"=\'1\'
 eval piece_"$I_TETRIMINO"_lowest_"$EAST"=\' 3\'
 eval piece_"$I_TETRIMINO"_lowest_"$SOUTH"=\'2\'
 eval piece_"$I_TETRIMINO"_lowest_"$WEST"=\' 3\'
+
+# T-Tetrimino
+#
+#    .[] .   .[] .   . . .   .[] .
+#   [][][]   .[][]  [][][]  [][] .
+#    . . .   .[] .   .[] .   .[] .
+eval piece_"$T_TETRIMINO"_minos_"$NORTH"=\'1 0  0 1  1 1  2 1\'
+eval piece_"$T_TETRIMINO"_minos_"$EAST"=\' 1 0  1 1  2 1  1 2\'
+eval piece_"$T_TETRIMINO"_minos_"$SOUTH"=\'0 1  1 1  2 1  1 2\'
+eval piece_"$T_TETRIMINO"_minos_"$WEST"=\' 1 0  0 1  1 1  1 2\'
+eval piece_"$T_TETRIMINO"_rshifts_"$NORTH"=\"0  0  0  0   1  0 -1  0   1  1 -1  1   n  n  n  n   1 -2 -1 -2\"
+eval piece_"$T_TETRIMINO"_rshifts_"$EAST"=\" 0  0  0  0   1  0  1  0   1 -1  1 -1   0  2  0  2   1  2  1  2\"
+eval piece_"$T_TETRIMINO"_rshifts_"$SOUTH"=\"0  0  0  0  -1  0  1  0   n  n  n  n   0 -2  0 -2  -1 -2  1 -2\"
+eval piece_"$T_TETRIMINO"_rshifts_"$WEST"=\" 0  0  0  0  -1  0 -1  0  -1 -1 -1 -1   0  2  0  2  -1  2 -1  2\"
+eval piece_"$T_TETRIMINO"_lowest_"$NORTH"=\'1\'
+eval piece_"$T_TETRIMINO"_lowest_"$EAST"=\' 2\'
+eval piece_"$T_TETRIMINO"_lowest_"$SOUTH"=\'2\'
+eval piece_"$T_TETRIMINO"_lowest_"$WEST"=\' 2\'
+
+# L-Tetrimino
+#
+#    . .[]   .[] .   . . .  [][] .
+#   [][][]   .[] .  [][][]   .[] .
+#    . . .   .[][]  [] . .   .[] .
+eval piece_"$L_TETRIMINO"_minos_"$NORTH"=\'2 0  0 1  1 1  2 1\'
+eval piece_"$L_TETRIMINO"_minos_"$EAST"=\' 1 0  1 1  1 2  2 2\'
+eval piece_"$L_TETRIMINO"_minos_"$SOUTH"=\'0 1  1 1  2 1  0 2\'
+eval piece_"$L_TETRIMINO"_minos_"$WEST"=\' 0 0  1 0  1 1  1 2\'
+eval piece_"$L_TETRIMINO"_rshifts_"$NORTH"=\"0  0  0  0   1  0 -1  0   1  1 -1  1   0 -2  0 -2   1 -2 -1 -2\"
+eval piece_"$L_TETRIMINO"_rshifts_"$EAST"=\" 0  0  0  0   1  0  1  0   1 -1  1 -1   0  2  0  2   1  2  1  2\"
+eval piece_"$L_TETRIMINO"_rshifts_"$SOUTH"=\"0  0  0  0  -1  0  1  0  -1  1  1  1   0 -2  0 -2  -1 -2  1 -2\"
+eval piece_"$L_TETRIMINO"_rshifts_"$WEST"=\" 0  0  0  0  -1  0 -1  0  -1 -1 -1 -1   0  2  0  2  -1  2 -1  2\"
+eval piece_"$L_TETRIMINO"_lowest_"$NORTH"=\'1\'
+eval piece_"$L_TETRIMINO"_lowest_"$EAST"=\' 2\'
+eval piece_"$L_TETRIMINO"_lowest_"$SOUTH"=\'2\'
+eval piece_"$L_TETRIMINO"_lowest_"$WEST"=\' 2\'
