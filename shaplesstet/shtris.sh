@@ -151,3 +151,33 @@ SCORE_FACTOR_SINGLE_LINE_PERFECT_CLEAR=800
 SCORE_FACTOR_DOUBLE_LINE_PERFECT_CLEAR=1200
 SCORE_FACTOR_TRIPLE_LINE_PERFECT_CLEAR=1800
 SCORE_FACTOR_TETRIS_PERFECT_CLEAR=2000
+
+
+# A Tetrimino that is Hard Dropped Locks Down immediately. However, if a Tetrimino naturally falls
+# or Soft Drops onto a Surface, it is given 0.5 seconds on a Lock Down Timer before it actually
+# Locks Down. Three rulesets -Infinite Placement, Extended, and Classic- dictate the conditions
+# for Lock Down. The default is Extended Placement.
+#
+# Extended Placement Lock Down
+#   This is the default Lock Down setting.
+#   Once the Tetrimino in play lands on a Surface in the Matrix, the Lock Down Timer starts counting
+#   down from 0.5 seconds. Once it hits zero, the Tetrimino Locks Down and the Next Tetrimino's
+#   generation phase starts. The Lock Down Timer resets to 0.5 seconds if the player simply moves
+#   or rotates the Tetrimino. In Extended Placement, a Tetrimino gets 15 left/right movements or
+#   rotations before it Locks Down, regardless of the time left on the Lock Down Timer. However, if
+#   the Tetrimino falls one row below the lowest row yet reached, this counter is reset. In all other
+#   cases, it is not reset.
+#
+# Infinite Placement Lock Down
+#   Once the Tetrimino in play lands on a Surface in the Matrix, the Lock Down Timer starts counting
+#   down from 0.5 seconds. Once it hits zero, the Tetrimino Locks Down and the Next Tetrimino's
+#   generation phase starts. However, the Lock Down Timer resets to 0.5 seconds if the player simply
+#   moves or rotates the Tetrimino. Thus, Infinite Placement allows the player to continue movement
+#   and rotation of a Tetrimino as long as there is an actual change in its position or orientation
+#   before the timer expires.
+#
+# Classic Lock Down
+#   Classic Lock Down rules apply if Infinite Placement and Extended Placement are turned off.
+#   Like Infinite Placement, the Lock Down Timer starts counting down from 0.5 seconds once the
+#   Tetrimino in play lands on a Surface. The y-coordinate of the Tetrimino must decrease (i.e., the
+#   Tetrimino falls further down in the Matrix) in order for the timer to be reset.
