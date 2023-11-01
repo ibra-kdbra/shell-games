@@ -181,3 +181,39 @@ SCORE_FACTOR_TETRIS_PERFECT_CLEAR=2000
 #   Like Infinite Placement, the Lock Down Timer starts counting down from 0.5 seconds once the
 #   Tetrimino in play lands on a Surface. The y-coordinate of the Tetrimino must decrease (i.e., the
 #   Tetrimino falls further down in the Matrix) in order for the timer to be reset.
+
+
+LOCKDOWN_RULE_EXTENDED=0
+LOCKDOWN_RULE_INFINITE=1
+LOCKDOWN_RULE_CLASSIC=2
+LOCKDOWN_ALLOWED_MANIPULATIONS=15
+
+# Location and size of playfield and border
+PLAYFIELD_W=10
+PLAYFIELD_H=20
+PLAYFIELD_X=18
+PLAYFIELD_Y=2
+
+# Location of error logs
+ERRLOG_Y=$((PLAYFIELD_Y + PLAYFIELD_H + 2))
+
+# Location of score information
+SCORE_X=3
+SCORE_Y=6
+
+# Location of help information
+HELP_X=52
+HELP_Y=8
+
+# Next piece location
+NEXT_X=41
+NEXT_Y=2
+NEXT_MAX=7
+
+# Hold piece location
+HOLD_X=7
+HOLD_Y=2
+
+# Location of center of play field
+CENTER_X=$((PLAYFIELD_X + PLAYFIELD_W)) # 1 width equals 2 character
+CENTER_Y=$((PLAYFIELD_Y + PLAYFIELD_H / 2 - 1))
