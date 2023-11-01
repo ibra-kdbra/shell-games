@@ -256,3 +256,39 @@ EXIT_FORMAT="\033[$((PLAYFIELD_Y + PLAYFIELD_H + 1));1H\033[K> %s\n"
 #     piece_<TETRIMINO>_rchifts_<FACING>='<POINT_1> <POINT_2> ...'
 #       <POINT_<NO>>: <ROTATION_LEFT_shifts> <ROTATION_RIGHT_shifts>
 #       <ROTATION_<DIR>_shifts>: <shift_x> <shift_y>
+
+# O-Tetrimino
+#
+#    .[][]   .[][]   .[][]   .[][]
+#    .[][]   .[][]   .[][]   .[][]
+#    . . .   . . .   . . .   . . .
+eval piece_"$O_TETRIMINO"_minos_"$NORTH"=\'1 0  2 0  1 1  2 1\'
+eval piece_"$O_TETRIMINO"_minos_"$EAST"=\' 1 0  2 0  1 1  2 1\'
+eval piece_"$O_TETRIMINO"_minos_"$SOUTH"=\'1 0  2 0  1 1  2 1\'
+eval piece_"$O_TETRIMINO"_minos_"$WEST"=\' 1 0  2 0  1 1  2 1\'
+eval piece_"$O_TETRIMINO"_rshifts_"$NORTH"=\"0  0  0  0   0  0  0  0   0  0  0  0   0  0  0  0   0  0  0  0\"
+eval piece_"$O_TETRIMINO"_rshifts_"$EAST"=\" 0  0  0  0   0  0  0  0   0  0  0  0   0  0  0  0   0  0  0  0\"
+eval piece_"$O_TETRIMINO"_rshifts_"$SOUTH"=\"0  0  0  0   0  0  0  0   0  0  0  0   0  0  0  0   0  0  0  0\"
+eval piece_"$O_TETRIMINO"_rshifts_"$WEST"=\" 0  0  0  0   0  0  0  0   0  0  0  0   0  0  0  0   0  0  0  0\"
+eval piece_"$O_TETRIMINO"_lowest_"$NORTH"=\'1\'
+eval piece_"$O_TETRIMINO"_lowest_"$EAST"=\' 1\'
+eval piece_"$O_TETRIMINO"_lowest_"$SOUTH"=\'1\'
+eval piece_"$O_TETRIMINO"_lowest_"$WEST"=\' 1\'
+
+# I-Tetrimino
+#    . . . .   . .[] .   . . . .   .[] . .
+#   [][][][]   . .[] .   . . . .   .[] . .
+#    . . . .   . .[] .  [][][][]   .[] . .
+#    . . . .   . .[] .   . . . .   .[] . .
+eval piece_"$I_TETRIMINO"_minos_"$NORTH"=\'0 1  1 1  2 1  3 1\'
+eval piece_"$I_TETRIMINO"_minos_"$EAST"=\' 2 0  2 1  2 2  2 3\'
+eval piece_"$I_TETRIMINO"_minos_"$SOUTH"=\'0 2  1 2  2 2  3 2\'
+eval piece_"$I_TETRIMINO"_minos_"$WEST"=\' 1 0  1 1  1 2  1 3\'
+eval piece_"$I_TETRIMINO"_rshifts_"$NORTH"=\"0  0  0  0  -1  0 -2  0   2  0  1  0  -1  2 -2 -1   2 -1  1  2\"
+eval piece_"$I_TETRIMINO"_rshifts_"$EAST"=\" 0  0  0  0   2  0 -1  0  -1  0  2  0   2  1 -1  2  -1 -2  2 -1\"
+eval piece_"$I_TETRIMINO"_rshifts_"$SOUTH"=\"0  0  0  0   1  0  2  0  -2  0 -1  0   1 -2  2  1  -2  1 -1 -2\"
+eval piece_"$I_TETRIMINO"_rshifts_"$WEST"=\" 0  0  0  0  -2  0  1  0   1  0 -2  0  -2 -1  1 -2   1  2 -2  1\"
+eval piece_"$I_TETRIMINO"_lowest_"$NORTH"=\'1\'
+eval piece_"$I_TETRIMINO"_lowest_"$EAST"=\' 3\'
+eval piece_"$I_TETRIMINO"_lowest_"$SOUTH"=\'2\'
+eval piece_"$I_TETRIMINO"_lowest_"$WEST"=\' 3\'
