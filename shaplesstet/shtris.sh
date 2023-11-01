@@ -217,3 +217,42 @@ HOLD_Y=2
 # Location of center of play field
 CENTER_X=$((PLAYFIELD_X + PLAYFIELD_W)) # 1 width equals 2 character
 CENTER_Y=$((PLAYFIELD_Y + PLAYFIELD_H / 2 - 1))
+
+
+# piece starting location
+# Tetriminos are all generated North Facing (just as they appear in the Next Queue) on the 21st
+# and 22nd rows, just above the Skyline. There are 10 cells across the Matrix, and every Tetrimino
+# that is three Minos wide is generated on the 4th cell across and stretches to the 6th. This
+# includes the T-Tetrimino, L-Tetrimino, J-Tetrimino, S-Tetrimino and Z-Tetrimino. The I-Tetrimino and
+# O-Tetrimino are exactly centered at generation. The I-Tetrimino is generated on the 21st row
+# (not 22nd), stretching from the 4th to 7th cells. The O-Tetrimino is generated on the 5th and
+# 6th cell.
+START_X=3
+START_Y=21
+
+# assured over 3 blocks above START_Y
+BUFFER_ZONE_Y=24
+
+# constant chars
+BEL="$(printf '\007')"
+ESC="$(printf '\033')"
+
+# exit information format
+EXIT_FORMAT="\033[$((PLAYFIELD_Y + PLAYFIELD_H + 1));1H\033[K> %s\n"
+
+# Minos:
+#   this array holds all possible pieces that can be used in the game
+#   each piece consists of 4 cells(minos)
+#   each string is sequence of relative xy coordinates
+#   Format:
+#     piece_<TETRIMINO>_minos_<FACING>='<mino_0_x> <mino_1_y> ...'
+#       (0, 0) is top left
+#
+# Rotaion point:
+#   Each Tetrimino has five possible rotation points. If the Tetrimino cannot rotate on the first point, it
+#   will try to rotate on the second. If it cannot rotate on the second, it will try the third and so on. If
+#   it cannot rotate on any of the points, then it cannot rotate.
+#   Format:
+#     piece_<TETRIMINO>_rchifts_<FACING>='<POINT_1> <POINT_2> ...'
+#       <POINT_<NO>>: <ROTATION_LEFT_shifts> <ROTATION_RIGHT_shifts>
+#       <ROTATION_<DIR>_shifts>: <shift_x> <shift_y>
