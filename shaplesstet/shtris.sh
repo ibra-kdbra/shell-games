@@ -450,3 +450,39 @@ Options:
 Version:
  $VERSION
 "
+# the queue of the next tetriminos to be placed.
+# the reference says the next six tetrimonos should be shown.
+next_queue=''
+
+# the hold queue allows the player to hold a falling tetrimino for as long as they wish.
+hold_queue=''
+
+# Tetris uses a "bag" system to determine the sequence of Tetriminos that appear during game
+# play. This system allows for equal distribution among the seven Tetriminos.
+#
+# The seven different Tetriminos are placed into a virtual bag, then shuffled into a random order.
+# This order is the sequence that the bag "feeds" the Next Queue. Every time a new Tetrimino is
+# generated and starts its fall within the Matrix, the Tetrimino at the front of the line in the bag is
+# placed at the end of the Next Queue, pushing all Tetriminos in the Next Queue forward by one.
+# The bag is refilled and reshuffled once it is empty.
+bag=''
+
+# Note: In most competitive multiplayer variants, all players should receive the same order of
+# Tetriminos (random for each game played), unless the variant is specifically designed not to
+# do this.
+#
+# Tetriminoes will appear in the same order in games started with the same number.
+# 0 means not set, and the range is from 1 to 4294967295.
+bag_random=0
+
+# the Variable Goal System requires that the player clears 5 lines at level 1, 10 lines at
+# level 2, 15 at level 3 and so on, adding an additional five lines to the Goal each level through 15.
+# with the Variable Goal System of adding 5 lines per level, the player is required to clear 600 lines
+# by level 15.
+#
+# This system also includes line bonuses to help speed up the game.
+# To speed up the process of "clearing" 600 lines, in the Variable Goal System the number of Line
+# Clears awarded for any action is directly based off the score of the action performed (score
+# at level 1 / 100 = Total Line Clears
+adding_lines_per_level=5
+
