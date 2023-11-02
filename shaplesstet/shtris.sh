@@ -426,3 +426,27 @@ Toggle Beep     B
 Toggle Help     H
 Quit            Q, ESCx2
 "
+USAGE="
+Usage: $PROG [options]
+
+Options:
+ -d, --debug          debug mode
+ -l, --level <LEVEL>  game level (default=1). range from 1 to $LEVEL_MAX
+ --rotation <MODE>    use 'Super' or 'Classic' rotation system
+                      MODE can be 'super'(default) or 'classic'
+ --lockdown <RULE>    Three rulesets -Infinite Placement, Extended, and Classic-
+                      dictate the conditions for Lock Down.
+                      RULE can be 'extended'(default), 'infinite', 'classic'
+ --seed <SEED>        random seed to determine the order of Tetriminos.
+                      range from 1 to 4294967295.
+ --theme <THEME>      color theme 'standard'(default), 'system'
+ --no-color           don't display colors
+ --no-beep            disable beep
+ --hide-help          don't show help on start
+
+ -h, --help     display this help and exit
+ -V, --version  output version infromation and exit
+
+Version:
+ $VERSION
+"
