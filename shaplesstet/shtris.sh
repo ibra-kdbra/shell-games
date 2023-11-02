@@ -379,3 +379,50 @@ eval piece_"$Z_TETRIMINO"_lowest_"$NORTH"=\'1\'
 eval piece_"$Z_TETRIMINO"_lowest_"$EAST"=\' 2\'
 eval piece_"$Z_TETRIMINO"_lowest_"$SOUTH"=\'2\'
 eval piece_"$Z_TETRIMINO"_lowest_"$WEST"=\' 2\'
+
+# the side of a Mino in the T-Tetrimino:
+# Format:
+#   T_TETRIMINO_<FACING>_SIDES='<SIDE_A> <SIDE_B> <SIDE_C> <SIDE_D>'
+#     <SIDE_<NO>>: <pos_x> <pos_y>
+#     (0, 0) is top left
+#
+# T-Spin:
+#   A rotation is considered a T-Spin if any of the following conditions are met:
+#   * Sides A and B + (C or D) are touching a Surface when the Tetrimino Locks Down.
+#   * The T-Tetrimino fills a T-Slot completely with no holes.
+#   * Rotation Point 5 is used to rotate the Tetrimino into the T-Slot.
+#     Any further rotation will be considered a T-Spin, not a Mini T-Spin
+#
+# Mini T-Spin:
+#   A rotation is considered a Mini T-Spin if either of the following conditions are met:
+#   * Sides C and D + (A or B) are touching a Surface when the Tetrimino Locks Down.
+#   * The T-Tetrimino creates holes in a T-Slot. However, if Rotation Point 5 was used to rotate
+#     the Tetrimino into the T-Slot, the rotation is considered a T-Spin.
+#
+eval T_TETRIMINO_"$NORTH"_SIDES=\"0 0  2 0  0 2  2 2\"
+eval T_TETRIMINO_"$EAST"_SIDES=\" 2 0  2 2  0 0  0 2\"
+eval T_TETRIMINO_"$SOUTH"_SIDES=\"2 2  0 2  2 0  0 0\"
+eval T_TETRIMINO_"$WEST"_SIDES=\" 0 2  0 0  2 2  2 0\"
+
+EMPTY_CELL=' .'     # how we draw empty cell
+FILLED_CELL='[]'    # how we draw filled cell
+INACTIVE_CELL='_]'  # how we draw inactive cell
+GHOST_CELL='░░'     # how we draw ghost cell
+DRY_CELL='  '       # how we draw dry cell
+
+HELP="
+Move Left       ←
+Move Right      →
+Rotate Left     z
+Rotate Right    x, ↑
+Hold            c
+Soft Drop       ↓
+Hard Drop       Space
+${SP}
+Pause / Resume  TAB, F1
+Refresh Screen  R
+Toggle Color    C
+Toggle Beep     B
+Toggle Help     H
+Quit            Q, ESCx2
+"
