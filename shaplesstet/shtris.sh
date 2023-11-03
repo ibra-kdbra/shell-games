@@ -568,4 +568,17 @@ lands_on=false
 pause=false
 gameover=false
 
+# Game Over Conditions
+#
+# Lock Out
+#   This Game Over Condition occurs when a whole Tetrimino Locks Down above the Skyline.
+#
+# Block Out
+#   This Game Over Condition occurs when part of a newly-generated Tetrimino is blocked due to
+#   an existing Block in the Matrix
+
+debug() {
+  [ $# -eq 0 ] && return
+  "$@" >> "$LOG"
+}
 
