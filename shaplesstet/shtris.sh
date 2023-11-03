@@ -550,4 +550,22 @@ last_actions=''
 #     * <https://tetris.wiki/Scoring>
 perfect_clear=false
 
+lockdown_rule=$LOCKDOWN_RULE_EXTENDED
+score=0                    # score variable initialization
+level=0                    # level variable initialization
+goal=0                     # goal variable initialization
+lines_completed=0          # completed lines counter initialization
+already_hold=false         #
+help_on=true               # if this flag is true help is shown, if false, hide
+beep_on=true               #
+no_color=false             # do we use color or not
+running=true               # controller runs while this flag is true
+manipulation_counter=0     #
+lowest_line=$START_Y       #
+current_tspin=$ACTION_NONE #
+theme='standard'
+lands_on=false
+pause=false
+gameover=false
+
 
