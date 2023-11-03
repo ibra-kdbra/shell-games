@@ -609,3 +609,28 @@ str_rpad() {
   done
   eval "$1=\$2"
 }
+
+
+switch_color_theme() {
+  local i=''
+
+  SCORE_COLOR='' HELP_COLOR='' BORDER_COLOR='' FLASH_COLOR='' HOLD_COLOR=''
+  eval "TETRIMINO_${EMPTY}_COLOR=''"
+  for i in I J L O S T Z; do
+    eval "TETRIMINO_${i}_COLOR=''"
+  done
+
+  "color_theme_$1"
+
+  for i in SCORE_COLOR HELP_COLOR BORDER_COLOR FLASH_COLOR HOLD_COLOR; do
+    eval "set -- $i \$${i}"
+    eval "${1}='${ESC}[${2};${3}m'"
+  done
+
+  eval "TETRIMINO_${EMPTY}_COLOR='${ESC}[39;49m'"
+  for i in I J L O S T Z; do
+    eval "set -- \$${i}_TETRIMINO \$TETRIMINO_${i}_COLOR"
+    eval "TETRIMINO_${1}_COLOR='${ESC}[${2};${3}m'"
+    eval "GHOST_${1}_COLOR='${ESC}[${4};${5}m'"
+  done
+}
