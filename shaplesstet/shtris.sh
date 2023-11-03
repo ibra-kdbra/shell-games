@@ -720,3 +720,30 @@ flush_screen() {
   screen_buffer=''
 }
 
+# move cursor to (x,y) and print string
+# (1,1) is upper left corner of the screen
+xyprint() {
+  puts "${ESC}[${2};${1}H${3:-}"
+}
+
+clear_screen() {
+  puts "${ESC}[H${ESC}[2J"
+}
+
+set_color() {
+  $no_color && return
+  puts "$1"
+}
+
+set_piece_color() {
+  eval set_color "\$TETRIMINO_${1}_COLOR"
+}
+
+set_ghost_color() {
+  eval set_color "\$GHOST_${1}_COLOR"
+}
+
+reset_colors() {
+  puts "${ESC}[m"
+}
+
