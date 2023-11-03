@@ -531,4 +531,23 @@ combo_counter=-1
 #   ---
 last_actions=''
 
+# A Perfect Clear (PC) means having no filled cells left after a line clear.
+# Scoring:
+#   Single-line perfect clear         | 800  x level
+#   Double-line perfect clear         | 1200 x level
+#   Triple-line perfect clear         | 1800 x level
+#   Tetris perfect clear              | 2000 x level
+#   Back-to-back Tetris perfect clear | 3200 x level
+#
+#   ex)
+#     Back-to-back Tetris perfect clear 3200 * level pt
+#
+#     Tetris (800 * level pt) + B2B-Bonus (800 / 2 * level pt) + Tetris-PC (2000 * level)
+#     = 3200 * level pt
+#
+#   details:
+#     * <https://n3twork.zendesk.com/hc/en-us/articles/360046263052-Scoring>
+#     * <https://tetris.wiki/Scoring>
+perfect_clear=false
+
 
