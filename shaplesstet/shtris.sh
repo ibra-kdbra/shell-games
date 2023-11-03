@@ -747,3 +747,23 @@ reset_colors() {
   puts "${ESC}[m"
 }
 
+set_style() {
+  while [ $# -gt 0 ]; do
+    case $1 in
+      bold)      puts "${ESC}[1m" ;;
+      underline) puts "${ESC}[4m" ;;
+      reverse)   puts "${ESC}[7m" ;;
+      *) echo "other styles are not supported" >&2 ;;
+    esac
+    shift
+  done
+}
+
+beep() {
+  $beep_on || return
+  puts "$BEL"
+}
+
+send_cmd() {
+  echo "$1"
+}
