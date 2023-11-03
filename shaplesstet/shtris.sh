@@ -689,3 +689,21 @@ color_theme_system() {
   TETRIMINO_Z_COLOR='31  41  31 49' # RED
 }
 
+color_theme_standard() {
+  SCORE_COLOR='38;5;70  49'       # green  (r:1 g:3 b:0)
+  HELP_COLOR=' 38;5;220 49'       # yellow (r:5 g:4 b:0)
+  HOLD_COLOR=' 38;5;245 48;5;245' # gray
+
+  #  not specify color (e.g., WHITE) to match terminal color theme (dark or light)
+  BORDER_COLOR='39 49' # default
+  FLASH_COLOR=' 39 49' # default
+
+  TETRIMINO_I_COLOR='38;5;39  48;5;39   38;5;39  49' # light blue (r:0 g:3 b:5)
+  TETRIMINO_J_COLOR='38;5;25  48;5;25   38;5;25  49' # dark blue  (r:0 g:1 b:3)
+  TETRIMINO_L_COLOR='38;5;208 48;5;208  38;5;208 49' # orange     (r:5 g:2 b:0)
+  TETRIMINO_O_COLOR='38;5;220 48;5;220  38;5;220 49' # yellow     (r:5 g:4 b:0)
+  TETRIMINO_S_COLOR='38;5;70  48;5;70   38;5;70  49' # green      (r:1 g:3 b:0)
+  TETRIMINO_T_COLOR='38;5;90  48;5;90   38;5;90  49' # purple     (r:2 g:0 b:2)
+  TETRIMINO_Z_COLOR='38;5;160 48;5;160  38;5;160 49' # red        (r:4 g:0 b:0)
+}
+
