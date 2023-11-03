@@ -706,4 +706,17 @@ color_theme_standard() {
   TETRIMINO_T_COLOR='38;5;90  48;5;90   38;5;90  49' # purple     (r:2 g:0 b:2)
   TETRIMINO_Z_COLOR='38;5;160 48;5;160  38;5;160 49' # red        (r:4 g:0 b:0)
 }
+# screen_buffer is variable, that accumulates all screen changes
+# this variable is printed in controller once per game cycle
+screen_buffer=''
+puts() {
+  screen_buffer="$screen_buffer""$1"
+}
+
+flush_screen() {
+  [ -z "$screen_buffer" ] && return
+  # $debug printf "${#screen_buffer} " # For debugging. survey the output size
+  echo "$screen_buffer"
+  screen_buffer=''
+}
 
