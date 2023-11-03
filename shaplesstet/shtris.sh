@@ -767,3 +767,17 @@ beep() {
 send_cmd() {
   echo "$1"
 }
+# Get pid of current process regardless of subshell
+#
+# $$:
+#   Expands to the process ID of the shell.
+#   In a () subshell, it expands to the process ID of the current shell, not the subshell.
+#
+# Notice that some shells (eg. zsh or ksh93) do NOT start a subprocess
+# for each subshell created with (...); in that case, $pid may be end up
+# being the same as $$, which is just right, because that's the PID of
+# the process getpid was called from.
+#
+# ref: <https://unix.stackexchange.com/questions/484442/how-can-i-get-the-pid-of-a-subshell>
+#
+# usage: getpid [varname]
