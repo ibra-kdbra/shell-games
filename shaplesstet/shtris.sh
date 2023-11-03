@@ -582,3 +582,30 @@ debug() {
   "$@" >> "$LOG"
 }
 
+# Arguments:
+#   1 - varname
+#   2 - str to repeat
+#   3 - count
+str_repeat() {
+  set -- "$1" "${2:-}" "${3:-0}" ""
+  while [ "$3" -gt 0 ]; do
+    set -- "$1" "$2" $(($3 - 1)) "$4$2"
+  done
+  eval "$1=\$4"
+}
+
+str_lpad() {
+  set -- "$1" "$2" "$3" "${4:- }"
+  while [ "${#2}" -lt "$3" ]; do
+    set -- "$1" "${4}${2}" "$3" "$4"
+  done
+  eval "$1=\$2"
+}
+
+str_rpad() {
+  set -- "$1" "$2" "$3" "${4:- }"
+  while [ "${#2}" -lt "$3" ]; do
+    set -- "$1" "${2}${4}" "$3" "$4"
+  done
+  eval "$1=\$2"
+}
