@@ -634,3 +634,21 @@ switch_color_theme() {
     eval "GHOST_${1}_COLOR='${ESC}[${4};${5}m'"
   done
 }
+
+# Color Codes
+#   39 - default foreground color
+#   49 - default background color
+#
+# 8 Colors
+#   30-37 - foreground color
+#     30:BLACK 31:RED 32:GREEN 33:YELLOW 34:BLUE 35:MAGENTA 36:CYAN 37:WHITE
+#   40-47 - background color
+#     40:BLACK 41:RED 42:GREEN 43:YELLOW 44:BLUE 45:MAGENTA 46:CYAN 47:WHITE
+#
+# 16 Colors (additional 8 colors)
+#    90- 97 - bright foreground color
+#     90:BLACK 91:RED 92:GREEN 93:YELLOW 94:BLUE 95:MAGENTA 96:CYAN 97:WHITE
+#   100-107 - bright background color
+#     100:BLACK 101:RED 102:GREEN 103:YELLOW 104:BLUE 105:MAGENTA 106:CYAN 107:WHITE
+#
+
