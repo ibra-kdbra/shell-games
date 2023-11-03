@@ -486,3 +486,49 @@ bag_random=0
 # at level 1 / 100 = Total Line Clears
 adding_lines_per_level=5
 
+# There is a special bonus for Back-to-Backs, which is when two actions
+# such as a Tetris and T-Spin Double take place without a Single, Double, or Triple Line Clear
+# occurring between them.
+#
+# Back-to-Back Bonus
+#   Bonus for Tetrises, T-Spin Line Clears, and Mini T-Spin Line Clears
+#   performed consecutively in a B2B sequence.
+b2b_sequence_continues=false
+
+# The player can perform the same actions on a Tetrimino in this phase as he/she can in the
+# Falling Phase, as long as the Tetrimino is not yet Locked Down. A Tetrimino that is Hard Dropped
+# Locks Down immediately. However, if a Tetrimino naturally falls or Soft Drops onto a landing
+# Surface, it is given 0.5 seconds on a Lock Down Timer before it actually Locks Down.
+#
+# There are three rulesets - Infinite Placement, Extended, and Classic.
+# For more details, see LOCKDOWN_RULE
+#
+# LOCKDOWN command is valid only when lock_phase=true
+lock_phase=false
+
+# Combos are bonuses which rewards multiple line clears in quick succession.
+# This type of combos is used in almost every official Tetris client that
+# follows the Tetris Guideline. For every placed piece that clears at least one line,
+# the combo counter is increased by +1. If a placed piece doesn't clear a line,
+# the combo counter is reset to -1. That means 2 consecutive line clears result
+# in a 1-combo, 3 consecutive line clears result in a 2-combo and so on.
+# Each time the combo counter is increased beyond 0, the player receives a reward:
+# In singleplayer modes, the reward is usually combo-counter*50*level points.
+combo_counter=-1
+
+# The variable to preserve last actions.
+# Each action is put on divided section by ':'.
+# draw_action() draws these actions.
+#
+# Actions will be drawn as follows:
+#   ---
+#   <REN>
+#   <EMPTY>
+#   <ACTION-1>
+#   <ACTION-2>
+#   <EMPTY>
+#   <BACK-to-BACK>
+#   ---
+last_actions=''
+
+
