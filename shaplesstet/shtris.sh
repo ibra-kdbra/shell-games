@@ -671,3 +671,21 @@ switch_color_theme() {
 #   <N>_COLOR='<FG> <BG>'
 #   TETRIMINO_<T>_COLOR='<FG> <BG> <GHOST_FG> <GHOST_BG>'
 
+color_theme_system() {
+  SCORE_COLOR='32  49' # GREEN
+  HELP_COLOR=' 33  49' # YELLOW
+  HOLD_COLOR=' 90 100' # BRIGHT BLACK
+
+  #  not specify color (e.g., WHITE) to match terminal color theme (dark or light)
+  BORDER_COLOR='39 49' # default
+  FLASH_COLOR=' 39 49' # default
+
+  TETRIMINO_I_COLOR='36  46  36 49' # CYAN
+  TETRIMINO_J_COLOR='34  44  34 49' # BLUE
+  TETRIMINO_L_COLOR='91 101  91 49' # BRIGHT RED
+  TETRIMINO_O_COLOR='33  43  33 49' # YELLOW
+  TETRIMINO_S_COLOR='32  42  32 49' # GREEN
+  TETRIMINO_T_COLOR='35  45  35 49' # MAGENTA
+  TETRIMINO_Z_COLOR='31  41  31 49' # RED
+}
+
