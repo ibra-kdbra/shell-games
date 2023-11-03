@@ -652,3 +652,22 @@ switch_color_theme() {
 #     100:BLACK 101:RED 102:GREEN 103:YELLOW 104:BLUE 105:MAGENTA 106:CYAN 107:WHITE
 #
 
+# 256 Colors
+#   38;5;<N> - foreground color
+#   48;5;<N> - background color
+#     N=  0-  7: standard colors
+#           0:BLACK 1:RED  2:GREEN  3:YELLOW  4:BLUE  5:MAGENTA  6:CYAN  7:WHITE
+#         8- 15: high intensity colors
+#           8:BLACK 9:RED 10:GREEN 11:YELLOW 12:BLUE 13:MAGENTA 14:CYAN 15:WHITE
+#        16-231: 216 colors (6 * 6 * 6)
+#                R*36 + G*6 + B + 16 (0 <= R, G, B <= 5)
+#       232-255: grayscale from black to white in 24 steps
+#
+# 16777216 Colors (256 * 256 * 256)
+#   38;2;<R>;<G>;<B> - foreground color
+#   48;2;<R>;<G>;<B> - background color
+#
+# Format:
+#   <N>_COLOR='<FG> <BG>'
+#   TETRIMINO_<T>_COLOR='<FG> <BG> <GHOST_FG> <GHOST_BG>'
+
