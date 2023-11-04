@@ -805,3 +805,41 @@ send_signal() {
 exist_process() {
   send_signal 0 "$@" 2>/dev/null
 }
+
+
+
+stop_at_start() {
+  sleep 0.1 # wait a bit because the too fast(?) ksh will output an error "Stopped (SIGSTOP)".
+  $debug echo "stop at start: $1"
+  send_signal "$SIGNAL_STOP" "$1"
+}
+
+wakeup_ticker() {
+  send_signal "$SIGNAL_CONT" "$ticker_pid"
+  # $debug echo 'wakeup ticker'
+}
+
+stop_ticker() {
+  send_signal "$SIGNAL_STOP" "$ticker_pid"
+  # $debug echo 'stop ticker'
+}
+
+wakeup_lockdown_timer() {
+  send_signal "$SIGNAL_CONT" "$timer_pid"
+  # $debug echo 'wakeup lockdown timer'
+}
+
+restart_lockdown_timer() {
+  send_signal "$SIGNAL_RESTART_LOCKDOWN_TIMER" $timer_pid
+  # $debug echo 'send_signal: RESTART_LOCKDOWN_TIMER'
+}
+
+stop_lockdown_timer() {
+  send_signal "$SIGNAL_STOP" "$timer_pid"
+  # $debug echo 'stop lockdown timer'
+}
+
+capture_input() {
+  send_signal "$SIGNAL_CAPTURE_INPUT" "$reader_pid"
+  # $debug echo 'capture input'
+}
