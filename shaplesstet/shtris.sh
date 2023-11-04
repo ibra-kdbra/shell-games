@@ -960,3 +960,21 @@ feed_next_queue() {
   shift; bag="$*"             # pop the tetrimino
 }
 
+get_next() {
+  set -- $next_queue
+
+  # next piece becomes current
+  # place current at the top of play field.
+  generate_tetrimino "$1" # peek the next piece
+
+  # check if piece can be placed at this location, if not - game over
+  new_piece_location_ok $current_piece_x $current_piece_y || gameover
+  show_current
+
+  # now let's shift next queue
+  clear_next
+  shift; next_queue="$*" # pop the next piece from the front of queue
+  feed_next_queue        # push tetrimino into queue; keep queue size
+  show_next
+}
+
