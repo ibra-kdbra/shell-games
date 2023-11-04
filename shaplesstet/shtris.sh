@@ -899,3 +899,29 @@ randnext() {
 #   1    - varname to be written shuffled args
 #   2    - current random value
 #   3... - args to be shuffled.
+
+
+shuffle() {
+  local varname="$1" random_value="$2" random_shift=0 shuffled=''
+
+  shift 2 # shift to target args.
+
+  # pick up one arg randomly and push it into 'shuffled'.
+  while [ $# -gt 1 ]; do
+    # get random shift (0 ~ len-1) to select arg randomly.
+    randnext "$random_value"
+    random_shift=$(( $random_value % $# ))
+
+    random_shift=${random_shift#-}          # take the absolute value
+    while [ $random_shift -gt 0 ]; do       # rotate args until selected arg comes up at head.
+      set -- "$@" "$1"; shift               # push first arg
+      random_shift=$(( random_shift - 1 ))  # pop first arg
+    done
+
+    shuffled="${shuffled}${1} " # push selected arg
+
+    shift # next selection
+  done
+
+  eval "$varname=\${shuffled}\${1}" # set result
+}
