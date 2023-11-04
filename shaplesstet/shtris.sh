@@ -843,3 +843,23 @@ capture_input() {
   send_signal "$SIGNAL_CAPTURE_INPUT" "$reader_pid"
   # $debug echo 'capture input'
 }
+
+release_input() {
+  send_signal "$SIGNAL_RELEASE_INPUT" "$reader_pid"
+  # $debug echo 'release input'
+}
+
+terminate_process() {
+  send_signal "$SIGNAL_CONT" "$@" 2>/dev/null
+  send_signal "$SIGNAL_TERM" "$@" 2>/dev/null
+  $debug echo 'terminate process:' "$@"
+}
+
+# return random value (0 ~ 4294967295)
+# using /dev/urandom as random seed.
+# Although /dev/urandom is not defined in POSIX,
+# it is enough for almost shell environment (maybe).
+# (if not, considering to use `ps` as seed)
+rand() {
+  od -A n -t u4 -N 4 /dev/urandom | sed 's/[^0-9]//g; s/^0*//'
+}
