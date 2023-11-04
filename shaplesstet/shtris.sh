@@ -863,3 +863,28 @@ terminate_process() {
 rand() {
   od -A n -t u4 -N 4 /dev/urandom | sed 's/[^0-9]//g; s/^0*//'
 }
+
+# Generate next random value
+#
+# Using xorshift32 to generate random number.
+# xorshit32 are a class of pseudorandom number generators.
+#
+# It is the recommendation of the authors of the xoshiro
+# paper to initialize the state of the generators using
+# a generator which is radically different from the initialized
+# generators, as well as one which will never give the
+# "all-zero" state; for shift-register generators,
+# this state is impossible to escape from.
+#
+# about xorshift32:
+#   * <https://en.wikipedia.org/wiki/Xorshift>
+#
+# Arguments:
+#   1 - varname
+randnext() {
+  # RAND_VALUE: 32-bit (possibly signed) integer excluding 0.
+  #   the sign is implementation-dependent (e.g. mksh is signed 32-bit integer).
+  eval "$1=$(( $1 ^ (($1 << 13) & 4294967295) ))" # 4294967295 (0x FFFF FFFF)
+  eval "$1=$(( $1 ^ (($1 >> 17) & 131071) ))"     # 131071     (0x 0001 FFFF)
+  eval "$1=$(( $1 ^ (($1  << 5) & 4294967295) ))" # 4294967295 (0x FFFF FFFF)
+}
