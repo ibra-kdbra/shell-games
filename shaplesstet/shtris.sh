@@ -781,3 +781,27 @@ send_cmd() {
 # ref: <https://unix.stackexchange.com/questions/484442/how-can-i-get-the-pid-of-a-subshell>
 #
 # usage: getpid [varname]
+
+get_pid(){
+  set -- "${1:-}" "$(exec sh -c 'echo "$PPID"')"
+  [ "$1" ] && eval "$1=\$2" && return
+  echo "$2"
+}
+
+send_signal() {
+  local signal=$1
+  shift
+  set -- $@ # remove empty pid
+
+  # If implemented correctly, there should be no need to discard the error,
+  # but it's a little hard and not that important, so we output only in debug mode.
+  if $debug; then
+    kill -"$signal" "$@" || echo "send signal failed: $signal:" "$@" >&2
+  else
+    { kill -"$signal" "$@"; } 2>/dev/null
+  fi
+}
+
+exist_process() {
+  send_signal 0 "$@" 2>/dev/null
+}
