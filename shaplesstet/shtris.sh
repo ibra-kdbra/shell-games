@@ -925,3 +925,20 @@ shuffle() {
 
   eval "$varname=\${shuffled}\${1}" # set result
 }
+
+reset_level() {
+  level=0 goal=0 lines_completed=0
+  while [ "$level" -lt "$starting_level" ]; do
+    increment_level
+  done
+  # send reset level signal to ticker (please see ticker for more details)
+  send_signal "$SIGNAL_RESET_LEVEL" "$ticker_pid"
+}
+
+level_up() {
+  increment_level
+  # send level-up signal to ticker (please see ticker for more details)
+  [ "$level" -lt "$LEVEL_MAX" ] && {
+    send_signal "$SIGNAL_LEVEL_UP" "$ticker_pid"
+  }
+}
