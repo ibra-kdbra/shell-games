@@ -978,3 +978,28 @@ get_next() {
   show_next
 }
 
+hold_tetrimino() {
+  #  Between Holds, A Lock Down must take place. reset this flag in move_piece().
+  "$already_hold" && return
+  already_hold=true
+
+  clear_current
+  clear_ghost
+
+  # if hold queue is empty,
+  [ -z "$hold_queue" ] && {
+    hold_queue="$current_piece" # hold current tetrimino
+    get_next                    # the Next Tetrimino is generated from the Next Queue and begins to fall
+    show_hold
+    return
+  }
+  clear_hold
+
+  # swap piece
+  held_piece="$hold_queue"
+  hold_queue="$current_piece"
+
+  generate_tetrimino "$held_piece"
+  show_hold
+}
+
