@@ -942,3 +942,21 @@ level_up() {
     send_signal "$SIGNAL_LEVEL_UP" "$ticker_pid"
   }
 }
+
+increment_level() {
+  level=$((level + 1))                            # increment level
+  goal=$((goal + level * adding_lines_per_level)) # adding an additional lines to the Goal
+}
+
+fill_bag() {
+  shuffle bag bag_random $O_TETRIMINO $I_TETRIMINO $T_TETRIMINO $L_TETRIMINO $J_TETRIMINO $S_TETRIMINO $Z_TETRIMINO
+}
+
+#  the Tetrimino at the front of the line in the bag is placed at the end of the Next Queue
+feed_next_queue() {
+  [ -z "$bag" ] && fill_bag   # if bag is empty, then fill the bag.
+  set -- $bag
+  next_queue="$next_queue $1" # place tetrimino at the end of the Next Queue
+  shift; bag="$*"             # pop the tetrimino
+}
+
