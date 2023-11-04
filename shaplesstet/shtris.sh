@@ -888,3 +888,14 @@ randnext() {
   eval "$1=$(( $1 ^ (($1 >> 17) & 131071) ))"     # 131071     (0x 0001 FFFF)
   eval "$1=$(( $1 ^ (($1  << 5) & 4294967295) ))" # 4294967295 (0x FFFF FFFF)
 }
+
+# Shuffle args
+#
+# Using Fisher-Yates shuffle.
+# details:
+#   * <https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle>
+#
+# Arguments:
+#   1    - varname to be written shuffled args
+#   2    - current random value
+#   3... - args to be shuffled.
