@@ -1221,3 +1221,49 @@ what_action() {
   }
   return "$action"
 }
+
+process_fallen_piece() {
+  local action=''
+
+  $perfect_clear && clear_perfect_clear
+  flatten_playfield
+
+  # There should be a line clear between current_y - 4 ~ current_y
+  process_complete_lines $((current_piece_y - 4)) $current_piece_y
+  set -- $completed_lines
+  what_action $#; action=$?
+
+  update_score_on_completion "$action" "$perfect_clear" && {
+    draw_action true # if last_actions changed, perform flash effect
+  }
+
+  # flash piece effect
+  flash_current
+  flush_screen
+  sleep 0.03
+
+  show_current
+  draw_action false
+  flush_screen
+
+  [ "$action" -eq $ACTION_NONE ]       ||
+  [ "$action" -eq $ACTION_MINI_TSPIN ] ||
+  [ "$action" -eq $ACTION_TSPIN ]      && return
+
+  release_input
+  beep
+
+  $perfect_clear && flash_perfect_clear
+  flash_line "$@"
+  flush_screen
+  sleep 0.045
+
+  $perfect_clear && draw_perfect_clear
+  clear_line "$@"
+  flush_screen
+  sleep 0.5
+
+  capture_input
+  redraw_playfield
+  $perfect_clear && draw_perfect_clear # Keep showing it for a while.
+}
