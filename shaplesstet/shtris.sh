@@ -1021,3 +1021,57 @@ generate_tetrimino() {
   current_tspin=$ACTION_NONE
   show_ghost
 }
+
+# Arguments:
+#   1 - x
+#   2 - y
+#   3 - rotation
+#   4 - rotation point
+what_type_tspin() {
+  local pos_x="$1" pos_y="$2" rotation="$3" side=0 side_x=0 side_y=0 field_cell=-1
+
+  # Rotation Point 5 is used to rotate the Tetrimino into the T-Slot.
+  # Any further rotation will be considered a T-Spin, not a Mini T-Spin
+  [ ${4:-0} -ge 5 ] && {
+    return $ACTION_TSPIN
+  }
+
+  eval set -- \$T_TETRIMINO_"$rotation"_SIDES # 1: A; 2: B; 3: C; 4: D
+
+  while [ $# -gt 0 ]; do
+    side=$((side + 1))
+    side_x=$1 side_y=$2
+    side_x=$((pos_x + side_x)) side_y=$((pos_y - side_y))
+
+    [ $side_x -lt 0 ]            ||
+    [ $side_x -ge $PLAYFIELD_W ] ||
+    [ $side_y -lt 0 ]            && {
+      # touching wall
+      eval is_touched_${side}=true
+      shift 2; continue
+    }
+
+    field_cell=$((playfield_${side_y}_${side_x}))
+    if [ $field_cell -ne "$EMPTY" ]; then
+      eval is_touched_${side}=true
+    else
+      eval is_touched_${side}=false
+    fi
+
+    shift 2
+  done
+
+  # if Sides A and B + (C or D) are touching a Surface
+  # considered a T-Spin
+  $is_touched_3 || $is_touched_4 && $is_touched_1 && $is_touched_2 && {
+    return $ACTION_TSPIN
+  }
+
+  # if Sides C and D + (A or B) are touching a Surface
+  # considered a Mini T-Spin
+  $is_touched_1 || $is_touched_2 && $is_touched_3 && $is_touched_4 && {
+    return $ACTION_MINI_TSPIN
+  }
+
+  return $ACTION_NONE
+}
