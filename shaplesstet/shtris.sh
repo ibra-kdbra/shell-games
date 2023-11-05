@@ -1391,3 +1391,37 @@ update_score_on_completion() {
       ;;
     *) echo "update_score_on_completion: invalid action($1) given" >&2 ;;
   esac
+  # Awarded Back-to-Back Bonus
+  # start a Back-to-Back sequence after Awarded b2b bonus
+  # The first Line Clear in the Back-to-Back sequence does not receive the Back-to-Back
+  # Bonus. Only consecutive qualifying Back-to-Back Line Clears after the first in the sequence
+  # receive the Back-to-Back Bonus.
+  case $1 in
+    "$ACTION_TETRIS"|\
+    "$ACTION_TSPIN_SINGLE"|"$ACTION_TSPIN_DOUBLE"|"$ACTION_TSPIN_TRIPLE"|\
+    "$ACTION_MINI_TSPIN_SINGLE")
+      $b2b_sequence_continues && {
+        score_to_add=$((score_to_add + score_to_add / 2))
+        lines_to_add=$((lines_to_add + lines_to_add / 2))
+        last_actions="$last_actions::Back-to-Back"; action_updated=0
+      }
+      b2b_sequence_continues=true;;
+  esac
+
+  $perfect_clear && {
+    case $1 in
+      "$ACTION_SINGLE")
+        score_to_add=$((score_to_add + SCORE_FACTOR_SINGLE_LINE_PERFECT_CLEAR * level))
+      ;;
+      "$ACTION_DOUBLE"|"$ACTION_MINI_TSPIN_DOUBLE"|"$ACTION_TSPIN_DOUBLE")
+        score_to_add=$((score_to_add + SCORE_FACTOR_DOUBLE_LINE_PERFECT_CLEAR * level))
+      ;;
+      "$ACTION_TRIPLE"|"$ACTION_TSPIN_TRIPLE")
+        score_to_add=$((score_to_add + SCORE_FACTOR_TRIPLE_LINE_PERFECT_CLEAR * level))
+      ;;
+      "$ACTION_TETRIS")
+        score_to_add=$((score_to_add + SCORE_FACTOR_TETRIS_PERFECT_CLEAR * level))
+      ;;
+    esac
+  }
+
