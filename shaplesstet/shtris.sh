@@ -1136,3 +1136,52 @@ is_line_completed() {
   return 0 # true
 }
 
+# This function checks if the lines in the hot zone are complete
+# and fall the upper blocks down.
+#
+# Arguments:
+#   1 - hot zone y min
+#   2 - hot zone y max (inclusive)
+# Globals:
+#   completed_lines
+#   perfect_clear
+process_complete_lines() {
+  local y="$1" yi="$2" x=0 field_cell=-1
+
+  completed_lines='' perfect_clear=false
+  [ $y -lt 0 ] && y=0
+
+  while [ "$y" -le "$yi" ]; do
+    is_line_completed "$y" && completed_lines="$completed_lines $y"
+    y=$((y + 1))
+  done
+
+  set -- $completed_lines
+
+  [ $# -eq 0 ] && return # no line clear
+
+  [ $1 -eq 0 ] && perfect_clear=true
+
+  # move lines down. move cells from y to yi
+  y=$1; shift; yi=$y
+  while [ "$y" -lt "$BUFFER_ZONE_Y" ]; do
+    y=$((y + 1))
+    [ "${1:-}" = "$y" ] && {
+      shift # line y is completed.
+      continue
+    }
+
+    # move line y to y1
+    x=$((PLAYFIELD_W - 1))
+    while [ "$x" -ge 0 ]; do
+      field_cell=$((playfield_${y}_${x}))
+      eval playfield_"$yi"_"$x"=\"$field_cell\"
+      [ $field_cell -ne $EMPTY ] && perfect_clear=false
+      x=$((x - 1))
+    done
+    yi=$((yi + 1))
+  done
+
+  # now let's mark lines from line yi to top line of the playfield as free.
+  free_playfield "$yi"
+}
