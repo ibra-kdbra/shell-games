@@ -1075,3 +1075,31 @@ what_type_tspin() {
 
   return $ACTION_NONE
 }
+
+# test if piece can be moved to new location
+# Arguments:
+#   1 - new x coordinate of the piece
+#   2 - new y coordinate of the piece
+new_piece_location_ok() {
+  local x_test="$1" y_test="$2" x=0 y=0 field_cell=-1
+
+  # set minos coordinates into parameters
+  # $1 - x, $2 - y
+  eval set -- \$piece_"$current_piece"_minos_"$current_piece_rotation"
+
+  # loop through tetrimino minos: 4 minos, each has 2 coordinates
+  while [ $# -gt 0 ]; do
+    x=$((x_test + $1)) # new x coordinate of piece cell
+    y=$((y_test - $2)) # new y coordinate of piece cell
+
+    [ "$y" -lt 0 ]              ||
+    [ "$x" -lt 0 ]              ||
+    [ "$x" -ge "$PLAYFIELD_W" ] && return 1 # false; check if we are out of the play field
+
+    field_cell=$((playfield_${y}_${x}))
+    [ "$field_cell" -ne "$EMPTY" ] && return 1 # false; check if location is already occupied
+
+    shift 2 # shift to next minos coordinates
+  done
+  return 0
+}
