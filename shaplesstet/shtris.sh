@@ -1279,3 +1279,27 @@ draw_scoreboard() {
   xyprint "$SCORE_X" $((SCORE_Y + 5)) "│GOAL"
   reset_colors
 }
+
+# update score while falling phase
+# Arguments:
+#   1 - drop action name. ACTION_SOFT_DROP or ACTION_HARD_DROP
+#   2 - (ACTION_HARD_DROP) lines
+update_score_on_drop() {
+  local factor=0 score_to_add=0
+
+  eval factor=\"\$SCORE_FACTOR_"$1"\"
+
+  case "$1" in
+    "$ACTION_SOFT_DROP") score_to_add=$factor ;;
+    "$ACTION_HARD_DROP") score_to_add=$((factor * $2)) ;;
+    *) echo "update_score_on_drop: invalid action($1) given" >&2 ;;
+  esac
+
+  score=$((score + score_to_add))
+
+  # It is enough to update the score
+  set_style bold
+  set_color "$SCORE_COLOR"
+  xyprint $((SCORE_X + 1)) $((SCORE_Y + 1)) "$score"
+  reset_colors
+}
