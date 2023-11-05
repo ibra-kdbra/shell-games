@@ -1267,3 +1267,15 @@ process_fallen_piece() {
   redraw_playfield
   $perfect_clear && draw_perfect_clear # Keep showing it for a while.
 }
+
+draw_scoreboard() {
+  set_style bold
+  set_color "$SCORE_COLOR"
+  xyprint "$SCORE_X" "$SCORE_Y"       "│SCORE:"
+  xyprint "$SCORE_X" $((SCORE_Y + 1)) "│"
+  xyprint "$SCORE_X" $((SCORE_Y + 2)) "│"
+  xyprint "$SCORE_X" $((SCORE_Y + 3)) "│LINES"
+  xyprint "$SCORE_X" $((SCORE_Y + 4)) "│LEVEL"
+  xyprint "$SCORE_X" $((SCORE_Y + 5)) "│GOAL"
+  reset_colors
+}
