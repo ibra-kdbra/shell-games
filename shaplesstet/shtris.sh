@@ -1312,3 +1312,82 @@ update_score_on_completion() {
   local factor=0 score_to_add=0 lines_to_add=0 action_updated=1 new_combo_counter=$combo_counter
 
   eval factor=\"\$SCORE_FACTOR_"$1"\"
+
+  # A Back-to-Back sequence is only broken by a Single, Double, or Triple Line Clear.
+  # Locking down a Tetrimino without clearing a line or holding a Tetrimino does not
+  # break the Back-to-Back sequence.
+  case "$1" in
+    "$ACTION_SINGLE")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      b2b_sequence_continues=false
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::Single:'; action_updated=0
+      ;;
+    "$ACTION_DOUBLE")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      b2b_sequence_continues=false
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::Double:'; action_updated=0
+      ;;
+    "$ACTION_TRIPLE")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      b2b_sequence_continues=false
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::Triple:'; action_updated=0
+      ;;
+    "$ACTION_TETRIS")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::Tetris:'; action_updated=0
+      ;;
+    "$ACTION_MINI_TSPIN")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      new_combo_counter=-1
+      last_actions='::Mini T-Spin:'; action_updated=0
+      ;;
+    "$ACTION_MINI_TSPIN_SINGLE")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::Mini T-Spin: Single'; action_updated=0
+      ;;
+    "$ACTION_MINI_TSPIN_DOUBLE")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::Mini T-Spin: Double'; action_updated=0
+      ;;
+    "$ACTION_TSPIN")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      new_combo_counter=-1
+      last_actions='::T-Spin:'; action_updated=0
+      ;;
+    "$ACTION_TSPIN_SINGLE")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::T-Spin: Single'; action_updated=0
+      ;;
+    "$ACTION_TSPIN_DOUBLE")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::T-Spin: Double'; action_updated=0
+      ;;
+    "$ACTION_TSPIN_TRIPLE")
+      score_to_add=$((level * factor)) # Awarded Line Clears
+      lines_to_add=$((factor / 100))
+      new_combo_counter=$((combo_counter + 1))
+      last_actions='::T-Spin: Triple'; action_updated=0
+      ;;
+    "$ACTION_NONE")
+      new_combo_counter=-1
+      ;;
+    *) echo "update_score_on_completion: invalid action($1) given" >&2 ;;
+  esac
