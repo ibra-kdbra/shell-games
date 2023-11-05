@@ -1303,3 +1303,12 @@ update_score_on_drop() {
   xyprint $((SCORE_X + 1)) $((SCORE_Y + 1)) "$score"
   reset_colors
 }
+# update score on completion phase
+# Arguments:
+#   1 - ACTION name. ex: ACTION_SINGLE
+# Returns:
+#   0 if actions updated, 1 not
+update_score_on_completion() {
+  local factor=0 score_to_add=0 lines_to_add=0 action_updated=1 new_combo_counter=$combo_counter
+
+  eval factor=\"\$SCORE_FACTOR_"$1"\"
