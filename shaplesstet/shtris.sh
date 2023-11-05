@@ -1103,3 +1103,36 @@ new_piece_location_ok() {
   done
   return 0
 }
+# this function updated occupied cells in playfield array after piece is dropped
+flatten_playfield() {
+  local x=0 y=0
+
+  # set minos coordinates into parameters
+  # $1 - x, $2 - y
+  eval set -- \$piece_"$current_piece"_minos_"$current_piece_rotation"
+
+  # loop through tetrimino minos: 4 minos, each has 2 coordinates
+  while [ $# -gt 0 ]; do
+    x=$((current_piece_x + $1))
+    y=$((current_piece_y - $2))
+    eval playfield_"$y"_"$x"="$current_piece"
+    shift 2 # shift to next minos coordinates
+  done
+}
+
+# check the line is completed
+# Arguments:
+#   1 - line y of playfield you want to check
+is_line_completed() {
+  local line_y="$1" x=0 field_cell=-1
+
+  x=$((PLAYFIELD_W - 1))
+  while [ "$x" -ge 0 ]; do
+    field_cell=$((playfield_${line_y}_${x}))
+    [ "$field_cell" -eq "$EMPTY" ] && return 1 # false
+    x=$((x - 1))
+  done
+
+  return 0 # true
+}
+
