@@ -1424,4 +1424,26 @@ update_score_on_completion() {
       ;;
     esac
   }
+  [ "$new_combo_counter" -ne "$combo_counter" ] && {
+    combo_counter=$new_combo_counter
 
+    last_actions=${last_actions#*:} # pop first line
+
+    [ $combo_counter -gt 0 ] && {
+      # Combo Bonus
+      score_to_add=$((score_to_add + SCORE_FACTOR_COMBO * combo_counter * level))
+      last_actions="$combo_counter REN:$last_actions"
+    } || {
+      last_actions=":$last_actions" # clear REN
+    }
+  }
+
+  score=$((score + score_to_add))
+  lines_completed=$((lines_completed + lines_to_add))
+
+  [ "$lines_completed" -ge "$goal" ] && level_up
+
+  draw_score
+
+  return $action_updated
+}
