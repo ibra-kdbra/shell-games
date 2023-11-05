@@ -1185,3 +1185,39 @@ process_complete_lines() {
   # now let's mark lines from line yi to top line of the playfield as free.
   free_playfield "$yi"
 }
+
+# Arguments:
+#   1 - number of cleared lines
+what_action() {
+  local action="$ACTION_NONE"
+
+  case $1 in
+    1) action="$ACTION_SINGLE" ;;
+    2) action="$ACTION_DOUBLE" ;;
+    3) action="$ACTION_TRIPLE" ;;
+    4) action="$ACTION_TETRIS" ;;
+  esac
+
+  [ $current_piece -eq $T_TETRIMINO ] && {
+    case $current_tspin in
+      $ACTION_TSPIN)
+        case $action in
+          $ACTION_SINGLE) action=$ACTION_TSPIN_SINGLE ;;
+          $ACTION_DOUBLE) action=$ACTION_TSPIN_DOUBLE ;;
+          $ACTION_TRIPLE) action=$ACTION_TSPIN_TRIPLE ;;
+          $ACTION_NONE)   action=$ACTION_TSPIN        ;;
+          *) echo "invalid tspin action: $action" >&2 ;;
+        esac
+        ;;
+      $ACTION_MINI_TSPIN)
+        case $action in
+          $ACTION_SINGLE) action=$ACTION_MINI_TSPIN_SINGLE ;;
+          $ACTION_DOUBLE) action=$ACTION_MINI_TSPIN_DOUBLE ;;
+          $ACTION_NONE)   action=$ACTION_MINI_TSPIN        ;;
+          *) echo "invalid mini-tspin action: $action" >&2 ;;
+        esac
+        ;;
+    esac
+  }
+  return "$action"
+}
