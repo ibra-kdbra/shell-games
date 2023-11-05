@@ -1003,3 +1003,21 @@ hold_tetrimino() {
   show_hold
 }
 
+# generate tetrimino in play field
+# Arguments:
+#   1 - tetrimino to generate
+generate_tetrimino() {
+  # $debug echo "generate"
+  current_piece="$1"
+
+  # beginning from its generation position and North Facing orientation.
+  current_piece_rotation="$NORTH"
+  current_piece_x=$START_X
+  current_piece_y=$((START_Y + 1)) # so that update_location() can process the update correctly
+  lowest_line=$current_piece_y     # ...
+  lands_on=false                   # ...
+  update_location $START_X $START_Y false
+
+  current_tspin=$ACTION_NONE
+  show_ghost
+}
