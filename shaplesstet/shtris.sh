@@ -1447,3 +1447,16 @@ update_score_on_completion() {
 
   return $action_updated
 }
+
+draw_score() {
+  set_style bold
+  set_color "$SCORE_COLOR"
+  xyprint $((SCORE_X + 1)) $((SCORE_Y + 1)) "$score"
+  str_lpad text "$lines_completed" 4
+  xyprint $((SCORE_X + 8)) $((SCORE_Y + 3)) "$text"
+  str_lpad text "$level" 4
+  xyprint $((SCORE_X + 8)) $((SCORE_Y + 4)) "$text"
+  str_lpad text "$goal" 4
+  xyprint $((SCORE_X + 8)) $((SCORE_Y + 5)) "$text"
+  reset_colors
+}
