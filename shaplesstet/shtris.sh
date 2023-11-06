@@ -1460,3 +1460,27 @@ draw_score() {
   xyprint $((SCORE_X + 8)) $((SCORE_Y + 5)) "$text"
   reset_colors
 }
+
+# Arguments:
+#   1 - flash. true or false
+draw_action() {
+  local flash="$1" i=0 text=''
+
+  set_style bold
+  set_color "$SCORE_COLOR"
+
+  IFS_SAVE=$IFS; IFS=:
+  set -- $last_actions
+  IFS=$IFS_SAVE
+
+  # We should clear at least 6 lines (see last_actions).
+  i=7
+  for text in "${1:-}" "${2:-}" "${3:-}" "${4:-}" "${5:-}" "${6:-}"; do
+    $flash && str_repeat text '█' ${#text}
+    str_rpad text " $text" 13 # max width 13 ' Back-to-Back'
+    xyprint "$SCORE_X" $((SCORE_Y + i)) "$text"
+    i=$((i + 1))
+  done
+
+  reset_colors
+}
