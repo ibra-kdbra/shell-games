@@ -1484,3 +1484,25 @@ draw_action() {
 
   reset_colors
 }
+# Arguments:
+#   1 - new x
+#   2 - new y
+#   3 - rotation changed (true or false)
+update_location() {
+  local lowest=0
+
+  lowest=$(($2 - piece_${current_piece}_lowest_${current_piece_rotation}))
+  [ $lowest -lt $lowest_line ] && {
+    # when the tetromino drops below the lowest line
+    # $debug echo "lowest line" $lowest
+
+    manipulation_counter=0 # reset manipulation counter
+    lock_phase=false       # exit lock phase
+    lowest_line=$lowest    # update lowest_line y
+  }
+
+  # Clear the "perfect clear" when a piece is close to it.
+  $perfect_clear && [ $(($2 - 4)) -lt $((PLAYFIELD_H / 2)) ] && {
+    perfect_clear=false
+    clear_perfect_clear
+  }
