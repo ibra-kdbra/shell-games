@@ -1572,3 +1572,20 @@ can_maniqulate() {
   esac
   return 0
 }
+# moves the piece to the new location if possible
+# Arguments:
+#   1 - new x coordinate
+#   2 - new y coordinate
+# Returns:
+#   can move piece
+move_piece() {
+  if new_piece_location_ok "$1" "$2"; then # if new location is ok
+    clear_current                          # let's wipe out piece current location
+    update_location $1 $2 false            # update location
+    update_ghost                           # update ghost with new pose of current piece
+    show_current                           # and draw piece in new location
+    return 0                               # nothing more to do here
+  fi                                       # if we could not move piece to new location
+
+  return 1
+}
