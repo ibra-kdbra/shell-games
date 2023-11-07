@@ -1589,3 +1589,17 @@ move_piece() {
 
   return 1
 }
+
+# Check a whole Tetrimino is above the Skyline. if yes - Game Over
+# Returns:
+#   0 - yes
+#   1 - no
+test_lockout() {
+  eval set -- \$piece_"$current_piece"_minos_"$current_piece_rotation"
+
+  while [ $# -gt 0 ]; do
+    [ $((current_piece_y - $2)) -lt $PLAYFIELD_H ] && return 1
+    shift 2 # shift to next minos coordinates
+  done
+  return 0
+}
