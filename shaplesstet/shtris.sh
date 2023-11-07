@@ -1564,3 +1564,11 @@ on_manipulation() {
       ;;
   esac
 }
+can_maniqulate() {
+  case $lockdown_rule in
+    $LOCKDOWN_RULE_EXTENDED)
+      [ $manipulation_counter -ge $LOCKDOWN_ALLOWED_MANIPULATIONS ] && return 1 # false
+      ;;
+  esac
+  return 0
+}
