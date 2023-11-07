@@ -1537,3 +1537,30 @@ update_location() {
   current_piece_x="$1"
   current_piece_y="$2"
 }
+
+# this function called when player manipulate tetrimino.
+on_manipulation() {
+  case $lockdown_rule in
+    $LOCKDOWN_RULE_INFINITE)
+      $lock_phase && {
+        # when the tetromino moves or rotates, the lockdown timer is reset
+        restart_lockdown_timer
+      }
+      ;;
+    $LOCKDOWN_RULE_EXTENDED)
+      [ $manipulation_counter -lt $LOCKDOWN_ALLOWED_MANIPULATIONS ] && {
+        manipulation_counter=$((manipulation_counter + 1))
+        # $debug echo "mc: $manipulation_counter" # For Debugging. to check counter
+        [ $manipulation_counter -eq $LOCKDOWN_ALLOWED_MANIPULATIONS ] && {
+          # last manipulation
+          lockdown # if possible
+        } || {
+          $lock_phase && {
+            # when the tetromino moves or rotates, the lockdown timer is reset
+            restart_lockdown_timer
+          }
+        }
+      }
+      ;;
+  esac
+}
