@@ -1506,3 +1506,34 @@ update_location() {
     perfect_clear=false
     clear_perfect_clear
   }
+#test lands on
+  if ! new_piece_location_ok "$1" $(($2 - 1)); then
+    if $3 || ! $lands_on; then
+      # $debug echo "lands on"
+      lands_on=true
+      if ! $lock_phase; then
+        # start lock Phase
+        wakeup_lockdown_timer
+        restart_lockdown_timer
+        lock_phase=true
+      else
+        # already in Lock Phase
+        wakeup_lockdown_timer
+      fi
+
+      # Once these movements/rotations have been used, the Lock Down
+      # Timer will not be reset and the Tetrimino will Lock Down immediately on the first Surface it
+      # touches.
+      can_maniqulate || lockdown
+    fi
+  else
+    $lands_on && { # currently not lands on but previously lands on - lifts up
+      # $debug echo 'lifts up'
+      stop_lockdown_timer
+    }
+    lands_on=false
+  fi
+
+  current_piece_x="$1"
+  current_piece_y="$2"
+}
