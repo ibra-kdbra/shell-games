@@ -1640,3 +1640,28 @@ lockdown() {
   # now lets sub process continue...
   wakeup_ticker
 }
+
+pause() {
+  if "$pause"; then
+    release_input
+    ready
+    capture_input
+
+    redraw_playfield
+    show_ghost
+    show_current
+    show_next
+    show_hold
+    pause=false
+    wakeup_ticker
+    $lock_phase && wakeup_lockdown_timer
+    return
+  fi
+
+  stop_ticker
+  $lock_phase && stop_lockdown_timer
+  draw_pause
+  clear_next
+  clear_hold
+  pause=true
+}
