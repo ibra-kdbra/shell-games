@@ -1665,3 +1665,28 @@ pause() {
   clear_hold
   pause=true
 }
+
+# Arguments:
+#   1 - rotation direction; 1: clockwise; -1: counter-clockwise
+rotate_piece_classic() {
+  local direction="$1" old_rotation=0 new_rotation=0
+
+  old_rotation=$current_piece_rotation                             # preserve current orientation
+  new_rotation=$((old_rotation + direction + 4))
+  new_rotation=$((new_rotation % 4))                               # calculate new orientation
+  current_piece_rotation=$new_rotation                             # set orientation to new
+  if new_piece_location_ok $current_piece_x $current_piece_y; then # check if new orientation is ok
+    [ $current_piece -eq $T_TETRIMINO ] && {
+      what_type_tspin $current_piece_x $current_piece_y $new_rotation; current_tspin=$?
+    }
+    current_piece_rotation=$old_rotation                           # if yes - restore old rotation ...
+    clear_current                                                  # ... clear piece image
+    current_piece_rotation=$new_rotation                           # ... set new orientation
+    update_ghost
+    show_current                                                   # ... draw piece with new orientation
+    return 0
+  fi
+  # if new orientation is not ok
+  current_piece_rotation=$old_rotation # restore old orientation
+  return 1
+}
