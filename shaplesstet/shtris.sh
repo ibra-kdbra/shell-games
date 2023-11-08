@@ -1603,3 +1603,40 @@ test_lockout() {
   done
   return 0
 }
+
+lockdown() {
+  $lock_phase || {
+    # $debug echo 'not lock_phase'
+    return
+  }
+
+  # if can fall, dont lock down
+  new_piece_location_ok "$current_piece_x" $((current_piece_y - 1)) && {
+    # $debug echo 'can fall'
+    return
+  }
+
+  # $debug echo 'lockdown'
+
+  lock_phase=false # exit lock Phase, then start Pattern Phase
+
+  # stop sub process until next the Generation Phase of the Next Tetrimino.
+  stop_ticker
+  stop_lockdown_timer
+
+  process_fallen_piece # let's finalize this piece
+
+  test_lockout && { # a whole Tetrimino Locks Down above the Skyline - Game Over
+    # now lets sub process continue...
+    gameover; return # ... Quit
+  }
+
+  get_next # and start the new one
+  if "$already_hold"; then
+    already_hold=false # player can hold the falling tetrimino.
+    show_hold
+  fi
+
+  # now lets sub process continue...
+  wakeup_ticker
+}
