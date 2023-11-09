@@ -1912,3 +1912,24 @@ show_ghost() {
   draw_playfield_piece $ghost_piece_x $ghost_piece_y $ghost_piece $ghost_piece_rotation "$GHOST_CELL"
   reset_colors
 }
+
+clear_ghost() {
+  ${ghost_piece+:} return
+
+  draw_playfield_piece $ghost_piece_x $ghost_piece_y $ghost_piece $ghost_piece_rotation "$EMPTY_CELL"
+}
+
+update_ghost() {
+  local new_ghost_piece_y=0
+
+  test_hard_drop $current_piece_x $current_piece_y
+  new_ghost_piece_y=$((current_piece_y - $?))
+
+  [ "$ghost_piece_x" -eq "$current_piece_x" ]               &&
+  [ "$ghost_piece_y" -eq "$new_ghost_piece_y" ]             &&
+  [ "$ghost_piece" -eq "$current_piece" ]                   &&
+  [ "$ghost_piece_rotation" -eq "$current_piece_rotation" ] && return
+
+  clear_ghost
+  show_ghost "$new_ghost_piece_y"
+}
