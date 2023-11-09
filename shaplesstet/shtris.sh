@@ -1828,5 +1828,23 @@ redraw_playfield() {
   reset_colors
 }
 
+# Arguments:
+#   1 - x
+#   2 - y
+#   3 - type
+#   4 - rotation
+#   5 - cell content
+draw_piece() {
+  local posx="$1" posy="$2" type="$3" rotation="$4" content="$5"
 
+  # set minos coordinates.
+  eval set -- \$piece_"$type"_minos_"$rotation"
 
+  # loop through tetrimino minos: 4 minos, each has 2 coordinates
+  while [ $# -gt 0 ]; do
+    # relative coordinates are retrieved based on orientation and added to absolute coordinates
+    # the width of cell is 2 characters thick
+    xyprint $((posx + $1 * 2)) $((posy + $2)) "$content"
+    shift 2
+  done
+}
