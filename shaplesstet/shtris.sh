@@ -1740,4 +1740,14 @@ rotate_piece_super() {
   return 1
 }
 
+move_right() {
+  can_maniqulate || return
+  move_piece $((current_piece_x + 1)) "$current_piece_y" && on_manipulation
+}
+
+move_left() {
+  can_maniqulate || return
+  move_piece $((current_piece_x - 1)) "$current_piece_y" && on_manipulation
+}
+
 
