@@ -1848,3 +1848,33 @@ draw_piece() {
     shift 2
   done
 }
+
+# Arguments:
+#   1 - x
+#   2 - y
+#   3 - type
+#   4 - rotation
+#   5 - cell content
+draw_playfield_piece() {
+  local posx="$1" posy="$2" type="$3" rotation="$4" content="$5" x=0 y=0
+
+  # set minos coordinates.
+  eval set -- \$piece_"$type"_minos_"$rotation"
+
+  # loop through tetrimino minos: 4 minos, each has 2 coordinates
+  while [ $# -gt 0 ]; do
+    # relative coordinates are retrieved based on orientation and added to absolute coordinates
+    x=$((posx + $1))
+    y=$((PLAYFIELD_H - 1 - posy + $2))
+
+    [ "$y" -ge 0 ]              &&
+    [ "$y" -lt "$PLAYFIELD_H" ] &&
+    [ "$x" -ge 0 ]              &&
+    [ "$x" -lt "$PLAYFIELD_W" ] && {
+      # the width of cell is 2 characters thick
+      xyprint $((PLAYFIELD_X + x * 2)) $((PLAYFIELD_Y + y)) "$content"
+    }
+
+    shift 2
+  done
+}
