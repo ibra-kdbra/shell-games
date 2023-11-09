@@ -1895,3 +1895,20 @@ flash_current() {
 clear_current() {
   draw_playfield_piece $current_piece_x $current_piece_y $current_piece $current_piece_rotation "$EMPTY_CELL"
 }
+
+# Update ghost piece with new location according to current piece.
+show_ghost() {
+  if [ $# -gt 0 ]; then
+    ghost_piece_y=$1
+  else
+    test_hard_drop $current_piece_x $current_piece_y
+    ghost_piece_y=$((current_piece_y - $?))
+  fi
+  ghost_piece=$current_piece
+  ghost_piece_x=$current_piece_x
+  ghost_piece_rotation=$current_piece_rotation
+
+  set_ghost_color "$current_piece"
+  draw_playfield_piece $ghost_piece_x $ghost_piece_y $ghost_piece $ghost_piece_rotation "$GHOST_CELL"
+  reset_colors
+}
