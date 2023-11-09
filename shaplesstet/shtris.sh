@@ -1795,4 +1795,8 @@ hard_drop() {
   lockdown # A Tetrimino that is Hard Dropped Locks Down immediately
 }
 
+hold() {
+  hold_tetrimino
+}
+
 
