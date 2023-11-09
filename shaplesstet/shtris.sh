@@ -1760,4 +1760,14 @@ rotate_ccw() {
   $rotate_piece_func -1 && on_manipulation
 }
 
+fall() {
+  move_piece "$current_piece_x" $((current_piece_y - 1))
+}
+
+soft_drop() {
+  move_piece "$current_piece_x" $((current_piece_y - 1)) && {
+    update_score_on_drop "$ACTION_SOFT_DROP"
+  }
+}
+
 
