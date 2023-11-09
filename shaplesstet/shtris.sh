@@ -1933,3 +1933,17 @@ update_ghost() {
   clear_ghost
   show_ghost "$new_ghost_piece_y"
 }
+
+flash_line() {
+  local line=''
+
+  set_style reverse underline
+  set_color "$FLASH_COLOR"
+  str_repeat line "$DRY_CELL" $PLAYFIELD_W
+  while [ $# -gt 0 ]; do
+    xyprint "$PLAYFIELD_X" $((PLAYFIELD_Y + PLAYFIELD_H - 1 - $1)) "$line"
+    shift
+  done
+  reset_colors
+}
+
