@@ -1799,4 +1799,34 @@ hold() {
   hold_tetrimino
 }
 
+# playfield is 2-dimensional array, data is stored as follows:
+# a_{y,x}
+#   x - 0, ..., (PLAYFIELD_W-1)
+#   y - 0, ..., (PLAYFIELD_H-1), ..., (START_Y-1)
+# each array element contains tetrimino type or empty cell
+redraw_playfield() {
+  local x=0 y=0 yp=0 field_cell=-1
+
+  while [ "$y" -lt "$PLAYFIELD_H" ]; do
+    yp=$((PLAYFIELD_Y + PLAYFIELD_H - y - 1))
+    xyprint "$PLAYFIELD_X" "$yp" # put the cursor on the front of line
+    x=0
+    while [ "$x" -lt "$PLAYFIELD_W" ]; do
+      if [ "$field_cell" -ne $((playfield_${y}_${x})) ]; then
+        field_cell=$((playfield_${y}_${x}))
+        set_piece_color "$field_cell"
+      fi
+      if [ "$field_cell" -eq "$EMPTY" ]; then
+        puts "$EMPTY_CELL"
+      else
+        puts "$FILLED_CELL"
+      fi
+      x=$((x + 1))
+    done
+    y=$((y + 1))
+  done
+  reset_colors
+}
+
+
 
