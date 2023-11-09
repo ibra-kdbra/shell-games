@@ -1884,3 +1884,10 @@ show_current() {
   draw_playfield_piece $current_piece_x $current_piece_y $current_piece $current_piece_rotation "$FILLED_CELL"
   reset_colors
 }
+
+flash_current() {
+  set_style reverse
+  set_color "$FLASH_COLOR"
+  draw_playfield_piece $current_piece_x $current_piece_y $current_piece $current_piece_rotation "$DRY_CELL"
+  reset_colors
+}
