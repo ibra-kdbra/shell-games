@@ -1891,3 +1891,7 @@ flash_current() {
   draw_playfield_piece $current_piece_x $current_piece_y $current_piece $current_piece_rotation "$DRY_CELL"
   reset_colors
 }
+
+clear_current() {
+  draw_playfield_piece $current_piece_x $current_piece_y $current_piece $current_piece_rotation "$EMPTY_CELL"
+}
