@@ -1784,4 +1784,15 @@ test_hard_drop() {
   return $((steps - 1)) # return value must be within 0 ~ 255
 }
 
+hard_drop() {
+  local steps=0
+
+  # move piece all way down
+  test_hard_drop $current_piece_x $current_piece_y; steps=$?
+
+  update_score_on_drop "$ACTION_HARD_DROP" $steps
+  move_piece $current_piece_x $((current_piece_y - steps))
+  lockdown # A Tetrimino that is Hard Dropped Locks Down immediately
+}
+
 
