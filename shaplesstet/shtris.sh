@@ -1750,4 +1750,14 @@ move_left() {
   move_piece $((current_piece_x - 1)) "$current_piece_y" && on_manipulation
 }
 
+rotate_cw() {
+  can_maniqulate || return
+  $rotate_piece_func 1 && on_manipulation
+}
+
+rotate_ccw() {
+  can_maniqulate || return
+  $rotate_piece_func -1 && on_manipulation
+}
+
 
