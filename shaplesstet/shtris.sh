@@ -1986,3 +1986,16 @@ clear_next() {
 }
 
 
+show_hold() {
+  [ -z "$hold_queue" ] && return
+  if "$already_hold"; then
+    set_color "$HOLD_COLOR"
+    draw_piece $((HOLD_X)) $((HOLD_Y)) $hold_queue "$NORTH" "$INACTIVE_CELL"
+  else
+    set_piece_color "$hold_queue"
+    draw_piece $((HOLD_X)) $((HOLD_Y)) $hold_queue "$NORTH" "$FILLED_CELL"
+  fi
+  reset_colors
+}
+
+
