@@ -1690,3 +1690,49 @@ rotate_piece_classic() {
   current_piece_rotation=$old_rotation # restore old orientation
   return 1
 }
+
+
+# Arguments:
+#   1 - rotation direction; 1: clockwise; -1: counter-clockwise
+rotate_piece_super() {
+  local direction="$1" old_rotation=0 new_rotation=0 new_x=0 new_y=0 rpoint=0
+
+  old_rotation=$current_piece_rotation # preserve current orientation
+
+  new_rotation=$((old_rotation + direction + 4)) #
+  new_rotation=$((new_rotation % 4))             # calculate new orientation
+
+  current_piece_rotation=$new_rotation
+
+  # test each rotation point. Each Tetrimino has five possible rotation points.
+  eval set -- \$piece_${current_piece}_rshifts_${old_rotation}
+  # now parameters setted like below
+  # '<POINT1> <POINT2> <POINT3> <POINT4> <POINT5>'
+  #   <POINT<NO>>: '<LEFT_SHIFT_X> <LEFT_SHIFT_Y> <RIGHT_SHIFT_X> <RIGHT_SHIFT_Y>'
+  [ $direction -eq 1 ] && shift 2 # if rotate clockwise(RIGHT) shift 2 to next xy-coordinates of RIGHT
+  while [ $# -gt 0 ]; do
+    rpoint=$((rpoint + 1))
+    [ $1 = 'n' ] && {        # if 'not used' appears, skip this point
+      [ $# -lt 4 ] && break;
+      shift 4; continue;
+    }
+
+    new_x=$((current_piece_x + $1)) # 1: shift x
+    new_y=$((current_piece_y + $2)) # 2: shift y
+    if new_piece_location_ok $new_x $new_y; then # check if new orientation is ok
+      [ $current_piece -eq $T_TETRIMINO ] && {
+        what_type_tspin $new_x $new_y $new_rotation $rpoint; current_tspin=$?
+      }
+      current_piece_rotation=$old_rotation       # if yes - restore old rotation ...
+      clear_current                              # ... clear piece image
+      current_piece_rotation=$new_rotation       # ... set new orientation
+      update_location $new_x $new_y true         # ... set new location
+      update_ghost
+      show_current                               # ... draw piece with new pose
+      return 0                                   # nothing to do more here
+    fi
+
+    [ $# -lt 4 ] && break;
+    shift 4 # test next rotation point
+  done
+
