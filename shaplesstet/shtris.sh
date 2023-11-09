@@ -1735,4 +1735,9 @@ rotate_piece_super() {
     [ $# -lt 4 ] && break;
     shift 4 # test next rotation point
   done
+    # if new orientation is not ok
+  current_piece_rotation=$old_rotation # restore old orientation
+  return 1
+}
+
 
