@@ -1959,4 +1959,18 @@ clear_line() {
   reset_colors
 }
 
+show_next() {
+  local next_y="$NEXT_Y"
+
+  set -- $next_queue
+
+  while [ $# -gt 0 ]; do
+    set_piece_color "$1"
+    draw_piece "$NEXT_X" "$next_y" "$1" "$NORTH" "$FILLED_CELL"
+    shift
+    next_y=$((next_y + 3))
+  done
+  reset_colors
+}
+
 
