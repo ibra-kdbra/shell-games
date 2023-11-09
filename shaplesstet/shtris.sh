@@ -1947,3 +1947,16 @@ flash_line() {
   reset_colors
 }
 
+clear_line() {
+  local line=''
+
+  set_piece_color "$EMPTY"
+  str_repeat line "$EMPTY_CELL" $PLAYFIELD_W
+  while [ $# -gt 0 ]; do
+    xyprint "$PLAYFIELD_X" $((PLAYFIELD_Y + PLAYFIELD_H - 1 - $1)) "$line"
+    shift
+  done
+  reset_colors
+}
+
+
