@@ -1973,4 +1973,16 @@ show_next() {
   reset_colors
 }
 
+clear_next() {
+  local next_y="$NEXT_Y"
+
+  set -- $next_queue
+
+  while [ $# -gt 0 ]; do
+    draw_piece "$NEXT_X" "$next_y" "$1" "$NORTH" '  '
+    shift
+    next_y=$((next_y + 3))
+  done
+}
+
 
