@@ -1770,4 +1770,18 @@ soft_drop() {
   }
 }
 
+# Arguments:
+#   1 - x
+#   2 - y
+# Returns:
+#   steps. 0 - no space to fall.
+test_hard_drop() {
+  local steps=1
+
+  while new_piece_location_ok $1 $(($2 - steps)); do
+    steps=$((steps + 1))
+  done
+  return $((steps - 1)) # return value must be within 0 ~ 255
+}
+
 
