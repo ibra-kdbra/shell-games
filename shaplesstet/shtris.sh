@@ -1878,3 +1878,9 @@ draw_playfield_piece() {
     shift 2
   done
 }
+
+show_current() {
+  set_piece_color "$current_piece"
+  draw_playfield_piece $current_piece_x $current_piece_y $current_piece $current_piece_rotation "$FILLED_CELL"
+  reset_colors
+}
