@@ -2053,3 +2053,17 @@ draw_help() {
   reset_colors
 }
 
+draw_pause() {
+  local y=0 line=''
+
+  str_repeat line "  " "$PLAYFIELD_W"
+  while [ "$y" -lt "$PLAYFIELD_H" ]; do
+    xyprint "$PLAYFIELD_X" $((PLAYFIELD_Y + y)) "$line"
+    y=$((y + 1))
+  done
+
+  set_style bold
+  xyprint $((CENTER_X - 3)) $CENTER_Y 'PAUSE'
+  reset_colors
+}
+
