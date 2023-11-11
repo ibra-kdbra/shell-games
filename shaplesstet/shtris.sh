@@ -2035,4 +2035,21 @@ draw_border() {
   reset_colors
 }
 
+draw_help() {
+  local help_x="$HELP_X" help_y="$HELP_Y" line=''
+
+  set_style bold
+  set_color "$HELP_COLOR"
+
+  IFS_SAVE=$IFS; IFS=$LF
+  set -- $HELP
+  IFS=$IFS_SAVE
+
+  for line in "$@"; do
+    "$help_on" || str_repeat line " " ${#line}
+    xyprint "$help_x" "$help_y" "$line"
+    help_y=$((help_y + 1))
+  done
+  reset_colors
+}
 
