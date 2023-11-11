@@ -2002,4 +2002,37 @@ clear_hold() {
   draw_piece $((HOLD_X)) $((HOLD_Y)) $hold_queue "$NORTH" '  '
 }
 
+draw_border() {
+  local x1=0 x2=0 y1=0 y2=0 i=0 x=0 y=0
+
+  set_style bold
+  set_color "$BORDER_COLOR"
+
+  x1=$((PLAYFIELD_X - 1))               # 1 here is because border is 1 characters thick
+  x2=$((PLAYFIELD_X + PLAYFIELD_W * 2)) # 2 here is because each cell on play field is 2 characters wide
+  y1=$((PLAYFIELD_Y - 1))
+  y2=$((PLAYFIELD_Y + PLAYFIELD_H))
+
+  i=0
+  while [ "$i" -lt "$PLAYFIELD_H" ]; do
+    y=$((i + PLAYFIELD_Y))
+    xyprint $x1 $y "│"
+    xyprint $x2 $y "│"
+    i=$((i + 1))
+  done
+
+  i=0
+  while [ "$i" -lt "$PLAYFIELD_W" ]; do
+    x=$((i * 2 + PLAYFIELD_X)) # 2 here is because each cell on play field is 2 characters width
+    xyprint $x $y1 '──'
+    xyprint $x $y2 '──'
+    i=$((i + 1))
+  done
+
+  xyprint $x1 $y1 "┌"; xyprint $x2 $y1 "┐" # draw the corners
+  xyprint $x1 $y2 "└"; xyprint $x2 $y2 "┘"
+
+  reset_colors
+}
+
 
