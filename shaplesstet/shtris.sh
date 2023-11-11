@@ -1997,5 +1997,9 @@ show_hold() {
   fi
   reset_colors
 }
+clear_hold() {
+  [ -z "$hold_queue" ] && return
+  draw_piece $((HOLD_X)) $((HOLD_Y)) $hold_queue "$NORTH" '  '
+}
 
 
