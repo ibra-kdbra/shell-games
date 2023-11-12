@@ -2078,3 +2078,10 @@ draw_perfect_clear() {
   xyprint $((CENTER_X - 2)) $((CENTER_Y + 1))  'CLEAR'
   reset_colors
 }
+
+clear_perfect_clear() {
+  local line=''
+  str_repeat line "$EMPTY_CELL" "$PLAYFIELD_W"
+  xyprint "$PLAYFIELD_X" "$CENTER_Y"       "$line"
+  xyprint "$PLAYFIELD_X" $((CENTER_Y + 1)) "$line"
+}
