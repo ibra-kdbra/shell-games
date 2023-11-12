@@ -2085,3 +2085,8 @@ clear_perfect_clear() {
   xyprint "$PLAYFIELD_X" "$CENTER_Y"       "$line"
   xyprint "$PLAYFIELD_X" $((CENTER_Y + 1)) "$line"
 }
+
+refresh_screen() {
+  clear_screen
+  redraw_screen
+}
