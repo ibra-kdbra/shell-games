@@ -2066,4 +2066,8 @@ draw_pause() {
   xyprint $((CENTER_X - 3)) $CENTER_Y 'PAUSE'
   reset_colors
 }
+flash_perfect_clear() {
+  set_style reverse
+  draw_perfect_clear
+}
 
