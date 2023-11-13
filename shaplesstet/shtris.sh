@@ -2295,3 +2295,72 @@ ticker() {
     # $debug echo "$level" # For debuging. check level variable
   done
 }
+
+# this function processes keyboard input
+reader() {
+  local game_pid="$1" my_pid='' inkey_pid='' key_sequence='' key='' capture=false
+
+  # Output the error via FD3 to avoid the problem of FreeBSD sh outputting "Terminated" on exit.
+  exec 3>&2 2>/dev/null
+
+  {
+    get_pid
+    while dd ibs=1 count=1; do
+      echo # insert a newline: convert one character to one line
+    done 2>/dev/null
+  } 2>&3 | { # Do not use '(' here
+    # Do not use subshell to make it work correctly with Solaris 11 sh (ksh).
+    # It will not respond to keystrokes.
+
+    # this process exits on SIGTERM
+    trap 'exit' $SIGNAL_TERM
+    trap 'capture=true' $SIGNAL_CAPTURE_INPUT
+    trap 'capture=false' $SIGNAL_RELEASE_INPUT
+
+    read inkey_pid
+    send_cmd "$NOTIFY_PID $PROCESS_INKEY $inkey_pid"
+
+    get_pid my_pid
+    send_cmd "$NOTIFY_PID $PROCESS_READER $my_pid"
+
+    key_sequence='-------' # preserve previous 7 keys
+
+    while exist_process "$game_pid"; do
+      # There is a bug in bash < 4.3.0 that ignores temporary IFS assignments when signal is
+      # received during read. Therefore, do not read and assign IFS at the same time here,
+      # since the space immediately after the signal will be ignored.
+      IFS_SAVE=$IFS; IFS=''
+      # When a signal is received, the read command may be aborted with an error (e.g. 1 or USR1 + 256).
+      read -r key || { IFS=$IFS_SAVE; continue; } # read one key
+      IFS=$IFS_SAVE
+
+      # echo "$key" >> $LOG # For debug to check input char.
+      # printf '%s' "$key" | od -An -tx1 >> $LOG # For debug to check input char as hex value.
+
+      # the key will be empty when you type enter
+      key_sequence="${key_sequence#?}${key:-"$LF"}"
+
+      "$capture" || continue
+
+      case "$key_sequence" in
+        # Ignore (incompleted) modifier + arrow keys
+        *"${ESC}[1" | *"${ESC}[1;"[0-9] | *"${ESC}[1;"[0-9][A-D]) ;;
+        *"${ESC}[1;"[0-9][0-9] | *"${ESC}[1;"[0-9][0-9][A-D]) ;;
+
+        *[4]      | *"${ESC}[D") send_cmd "$LEFT"           ;; # Numpad 4, Left
+        *[6]      | *"${ESC}[C") send_cmd "$RIGHT"          ;; # Numpad 6, Right
+        *[x159]   | *"${ESC}[A") send_cmd "$ROTATE_CW"      ;; # x, Numpad 1 5 9, Up
+        *[z37]                 ) send_cmd "$ROTATE_CCW"     ;; # z, Numpad 3, 7
+        *[c0]                  ) send_cmd "$HOLD"           ;; # c, Numpad 0
+        *[2]      | *"${ESC}[B") send_cmd "$SOFT_DROP"      ;; # Numpad 2, Down
+        *[8${SP}]              ) send_cmd "$HARD_DROP"      ;; # Space Bar, Numpad 8
+        *[${TAB}] | *"${ESC}OP") send_cmd "$PAUSE"          ;; # TAB, F1
+        *[R]                   ) send_cmd "$REFRESH_SCREEN" ;; # R
+        *[C]                   ) send_cmd "$TOGGLE_COLOR"   ;; # C
+        *[B]                   ) send_cmd "$TOGGLE_BEEP"    ;; # B
+        *[H]                   ) send_cmd "$TOGGLE_HELP"    ;; # H
+        *[Q]  | *"${ESC}${ESC}") send_cmd "$QUIT"; break    ;; # Q, ESCx2
+      esac
+    done
+  } 2>&3
+}
