@@ -2194,3 +2194,23 @@ free_playfield() {
     y=$((y + 1))
   done
 }
+
+receive_pids() {
+  local cmd='' from='' pid=''
+
+  get_pid pid
+  $debug echo "controller pid: $pid"
+  $debug echo 'Checking subprocess pid'
+  while [ -z $ticker_pid ] || [ -z $timer_pid ] || [ -z $reader_pid ] || [ -z $inkey_pid ]; do
+    read cmd from pid
+    [ "$cmd" = "$NOTIFY_PID" ] || continue
+    case $from in
+      $PROCESS_TICKER) ticker_pid=$pid from='ticker' ;;
+      $PROCESS_TIMER)  timer_pid=$pid  from='timer ' ;;
+      $PROCESS_READER) reader_pid=$pid from='reader' ;;
+      $PROCESS_INKEY)  inkey_pid=$pid  from='inkey ' ;;
+      *) echo "invalid process number: $from" >&2; continue ;;
+    esac
+    $debug echo "> $from $pid ...OK"
+  done
+}
