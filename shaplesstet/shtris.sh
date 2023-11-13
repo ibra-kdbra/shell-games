@@ -2214,3 +2214,19 @@ receive_pids() {
     $debug echo "> $from $pid ...OK"
   done
 }
+
+ready() {
+  # show 'READY' for 1 second.
+  xyprint $((CENTER_X - 3)) $CENTER_Y 'READY'
+  flush_screen
+  sleep 1
+
+  # counting down 3 seconds
+  i=3
+  while [ $i -gt 0 ]; do
+    xyprint $((CENTER_X - 1)) $((CENTER_Y + 1)) $i
+    flush_screen
+    sleep 1
+    i=$((i - 1))
+  done
+}
