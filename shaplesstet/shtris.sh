@@ -2132,3 +2132,65 @@ quit() {
   xyprint $((CENTER_X - 5)) $CENTER_Y 'Game Over!'
   flush_screen
 }
+
+init() {
+  local x=0 y=0 i=0
+
+  switch_color_theme "$theme"
+
+  # Initialize random generator.
+  [ $bag_random -eq 0 ] && {
+    # if not set
+    bag_random=$(rand 2>/dev/null)
+    [ ${bag_random:-0} -eq 0 ] && bag_random=$(date +%s)
+  }
+  $debug echo "seed: $bag_random" # It is useful for reproducing the situation.
+
+  # playfield is initialized with EMPTY (0)
+  free_playfield
+
+  # prepare next queue filled with NEXT_MAX tetrimino
+  i=0
+  while [ "$i" -lt "$NEXT_MAX" ]; do
+    feed_next_queue
+    i=$((i + 1))
+  done
+
+  # receive subprocess pids
+  receive_pids
+
+  # reset to starting level
+  reset_level
+
+  # now setup play screen
+  clear_screen
+  redraw_screen
+
+  ready
+
+  wakeup_ticker
+  capture_input
+
+  redraw_playfield
+  get_next
+  flush_screen
+}
+
+# Free playfield with EMPTY (0)
+# Arguments:
+#   1 - start of y
+free_playfield() {
+  local y=${1:-0} x=0
+
+  # x of playfield - 0, ..., (PLAYFIELD_W-1)
+  # y of playfield - 0, ..., (PLAYFIELD_H-1), ..., (START_Y), ..., (BUFFER_ZONE_Y)
+  # (0, 0) is bottom left
+  while [ "$y" -le "$BUFFER_ZONE_Y" ]; do
+    x=0
+    while [ "$x" -lt "$PLAYFIELD_W" ]; do
+      eval playfield_"$y"_"$x"="$EMPTY"
+      x=$((x + 1))
+    done
+    y=$((y + 1))
+  done
+}
