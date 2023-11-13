@@ -2106,3 +2106,18 @@ redraw_screen() {
     show_current
   }
 }
+
+toggle_help() {
+  $help_on && help_on=false || help_on=true
+  draw_help
+}
+
+toggle_beep() {
+  $beep_on && beep_on=false || beep_on=true
+  beep
+}
+
+toggle_color() {
+  $no_color && no_color=false || no_color=true
+  redraw_screen
+}
