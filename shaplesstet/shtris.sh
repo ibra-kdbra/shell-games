@@ -2261,3 +2261,37 @@ lockdown_timer() {
     #   wait $!
   done
 }
+
+# this function runs in separate process
+# it sends FALL commands to controller with appropriate delay
+ticker() {
+  game_pid=$1 level=0
+
+  # on SIGTERM this process should exit
+  trap exit $SIGNAL_TERM
+  # on this signal fall speed should be increased, this happens during level ups
+  trap 'level=$((level + 1))' $SIGNAL_LEVEL_UP
+  trap 'level=$starting_level' $SIGNAL_RESET_LEVEL
+
+  get_pid my_pid
+  send_cmd "$NOTIFY_PID $PROCESS_TICKER $my_pid"
+
+  # wait for the level to reset, then stop
+  while exist_process "$game_pid" && [ "$level" -eq 0 ]; do
+    sleep 0.1
+  done
+  stop_at_start "$my_pid"
+
+  # the game level, which levelup-signal counts up.
+  while exist_process "$game_pid"; do
+    eval sleep \"\$FALL_SPEED_LEVEL_$level\"
+
+    # The following code will cause an error ("Illegal instruction: 4") on macOS(bash 3.2.57).
+    #   eval sleep \"\$FALL_SPEED_LEVEL_$level\" &
+    #   wait $!
+
+    send_cmd "$FALL"
+
+    # $debug echo "$level" # For debuging. check level variable
+  done
+}
