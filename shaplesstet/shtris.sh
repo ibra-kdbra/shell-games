@@ -2121,3 +2121,14 @@ toggle_color() {
   $no_color && no_color=false || no_color=true
   redraw_screen
 }
+
+gameover() {
+  gameover=true
+  quit
+}
+
+quit() {
+  running=false # let's stop controller ...
+  xyprint $((CENTER_X - 5)) $CENTER_Y 'Game Over!'
+  flush_screen
+}
