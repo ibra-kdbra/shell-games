@@ -2090,3 +2090,19 @@ refresh_screen() {
   clear_screen
   redraw_screen
 }
+
+redraw_screen() {
+  draw_help # should first. draw help on the lowest layer
+  show_next
+  show_hold
+  draw_scoreboard
+  draw_score
+  draw_action false
+  draw_border
+  redraw_playfield
+  [ ${current_piece:-} ] && {
+    # There is Tetrimino in Play
+    show_ghost
+    show_current
+  }
+}
