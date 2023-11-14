@@ -2364,3 +2364,16 @@ reader() {
     done
   } 2>&3
 }
+
+# Even if the game is finished, dd is still waiting for input, so we need to find it and kill it.
+killdd() {
+  local parent_pid="$1" pid="" ppid="" comm=""
+  ps -o pid= -o ppid= -o comm= 2>/dev/null | {
+    while IFS="${SP}${TAB}" read -r pid ppid comm; do
+      if [ "$ppid" = "$parent_pid" ] && [ "$comm" = "dd" ]; then
+        $debug echo "kill dd: $pid"
+        terminate_process "$pid"
+      fi
+    done
+  }
+}
