@@ -2578,3 +2578,18 @@ cleanup() {
   "$interrupt" && exit 130 # SIGINT (2) + 128
   return 0
 }
+
+errlogger() {
+  local i=0 line='' pre='' post=''
+
+  pre="${pre}${ESC}[${ERRLOG_Y}r" # set scroll region
+  pre="${pre}${ESC}8"             # restore cursor position
+  post="${post}${ESC}7"           # save cursor position
+  post="${post}${ESC}[r"          # unset scroll region
+
+  while IFS= read -r line; do
+    i=$((i + 1))
+    printf '%s[%d] %s\n%s' "$pre" "$i" "$line" "$post"
+    $debug printf '%s\n' "$line"
+  done
+}
