@@ -2593,3 +2593,5 @@ errlogger() {
     $debug printf '%s\n' "$line"
   done
 }
+
+main "$@"
