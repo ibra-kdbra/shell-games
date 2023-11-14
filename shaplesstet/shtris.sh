@@ -2377,3 +2377,43 @@ killdd() {
     done
   }
 }
+
+controller() {
+  local cmd='' ticker_pid='' timer_pid='' reader_pid='' inkey_pid=''
+
+  # These signals are ignored
+  trap '' $SIGNAL_TERM
+  trap 'controller_interrupt' "$SIGNAL_INT"
+
+  # initialization of commands array with appropriate functions
+  eval commands_"$QUIT"=quit
+  eval commands_"$RIGHT"=move_right
+  eval commands_"$LEFT"=move_left
+  eval commands_"$ROTATE_CW"=rotate_cw
+  eval commands_"$ROTATE_CCW"=rotate_ccw
+  eval commands_"$FALL"=fall
+  eval commands_"$SOFT_DROP"=soft_drop
+  eval commands_"$HARD_DROP"=hard_drop
+  eval commands_"$HOLD"=hold
+  eval commands_"$REFRESH_SCREEN"=refresh_screen
+  eval commands_"$TOGGLE_BEEP"=toggle_beep
+  eval commands_"$TOGGLE_COLOR"=toggle_color
+  eval commands_"$TOGGLE_HELP"=toggle_help
+  eval commands_"$LOCKDOWN"=lockdown
+  eval commands_"$PAUSE"=pause
+
+  init
+
+  while $running; do           # run while this variable is true, it is changed to false in quit function
+    read cmd                   # read next command from stdout
+    "$pause" && [ "$cmd" -ne "$PAUSE" ] && continue
+    eval "\"\$commands_$cmd\"" # run command
+    flush_screen
+  done
+
+  terminate_process "$timer_pid" "$ticker_pid" "$reader_pid"
+  killdd "$inkey_pid"
+
+  "$gameover" && return 1
+  return 0
+}
