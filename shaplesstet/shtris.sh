@@ -2451,3 +2451,100 @@ die_usage() {
   echo "$PROG: $1" 1>&2
   echo "$USAGE" 1>&2; exit 1
 }
+
+main() {
+  rotate_piece_func=rotate_piece_super
+  starting_level=1
+  debug=false
+
+  while [ $# -gt 0 ]; do
+    case $1 in
+      -d|--debug)
+        debug="debug"
+        shift; continue
+        ;;
+      -l|--level)
+        [ $# -le 1 ] && { # if next arg not exists
+          die_usage "option '$1' requires an argument"
+        }
+
+        { expr "$2" + 1 > /dev/null 2>&1; [ $? -gt 1 ]; } || # if not number
+        [ "$2" -lt 1 ]                                    || # ...less than 1
+        [ "$2" -gt $LEVEL_MAX ]                           && # ...greater than LEVEL_MAX, then
+        {
+          die_usage "invalid level '$2'"
+        }
+
+        starting_level=$2
+        shift 2; continue
+        ;;
+      --rotation)
+        [ $# -le 1 ] && { # if next arg not exists
+          die_usage "option '$1' requires an argument"
+        }
+        case $2 in
+          classic) rotate_piece_func=rotate_piece_classic ;;
+          super)   rotate_piece_func=rotate_piece_super   ;;
+          *)       die_usage "unrecognized rotation mode '$2'" ;;
+        esac
+        shift 2; continue
+        ;;
+      --lockdown)
+        [ $# -le 1 ] && { # if next arg not exists
+          die_usage "option '$1' requires an argument"
+        }
+        case $2 in
+          extended) lockdown_rule=$LOCKDOWN_RULE_EXTENDED ;;
+          infinite) lockdown_rule=$LOCKDOWN_RULE_INFINITE ;;
+          classic)  lockdown_rule=$LOCKDOWN_RULE_CLASSIC  ;;
+          *)        die_usage "unrecognized lockdown rule '$2'" ;;
+        esac
+        shift 2; continue
+        ;;
+      --seed)
+        [ $# -le 1 ] && { # if next arg not exists
+          die_usage "option '$1' requires an argument"
+        }
+
+        { expr "$2" + 1 > /dev/null 2>&1; [ $? -gt 1 ]; } || # if not number
+        [ "$2" -lt 1 ]                                    || # ...less than 1
+        [ "$2" -gt 4294967295 ]                           && # ...greater than LEVEL_MAX, then
+        {
+          die_usage "invalid seed '$2'"
+        }
+        bag_random=$2
+        shift 2; continue
+        ;;
+      --theme)
+        [ $# -le 1 ] && { # if next arg not exists
+          die_usage "option '$1' requires an argument"
+        }
+        case $2 in
+          system | standard) theme=$2 ;;
+          *) die_usage "unrecognized color theme '$2'" ;;
+        esac
+        shift 2; continue
+        ;;
+      --no-beep)
+        beep_on=false
+        shift; continue
+        ;;
+      --no-color)
+        no_color=true
+        shift; continue
+        ;;
+      --hide-help)
+        help_on=false
+        shift; continue
+        ;;
+      --help|-h)    echo "$USAGE";   exit ;;
+      --version|-V) echo "$VERSION"; exit ;;
+      *)            die_usage "unrecognized option '$1'" ;;
+    esac
+  done
+
+  $debug echo "=== Debug mode enabled ==="
+  initialize
+  ( game 2>&1 >&3 | errlogger ) 3>&1
+  cleanup
+}
