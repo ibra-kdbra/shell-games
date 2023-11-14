@@ -2443,3 +2443,11 @@ game() {
   printf "$EXIT_FORMAT" "Press enter to continue ..."
   read _
 }
+
+# Exit with error message and usage
+# Arguments:
+#   Error message
+die_usage() {
+  echo "$PROG: $1" 1>&2
+  echo "$USAGE" 1>&2; exit 1
+}
