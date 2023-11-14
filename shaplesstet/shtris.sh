@@ -2548,3 +2548,18 @@ main() {
   ( game 2>&1 >&3 | errlogger ) 3>&1
   cleanup
 }
+
+initialize() {
+  stty_g=$(stty -g) # let's save terminal state
+  interrupt=false
+  trap 'interrupt=true' "$SIGNAL_INT"
+
+  printf '\033[?25l' # hide cursor
+  printf '\033[2J'   # clear full screen
+
+  # save error log position
+  printf '\033[%dH\0337' "$ERRLOG_Y"
+
+  # disable terminal local echo (echoback) and canonical input mode
+  stty -echo -icanon -ixon time 0 min 1
+}
