@@ -2563,3 +2563,18 @@ initialize() {
   # disable terminal local echo (echoback) and canonical input mode
   stty -echo -icanon -ixon time 0 min 1
 }
+
+cleanup() {
+  local msg=''
+
+  stty "$stty_g" # let's restore terminal state
+
+  # put message at bottom of playfield so that game screen will keep its shape.
+  "$interrupt" && msg="Abort" || msg="Quit"
+  printf "$EXIT_FORMAT" "$msg"
+  printf '\0338'     # restore cursor position
+  printf '\033[?25h' # show cursor
+
+  "$interrupt" && exit 130 # SIGINT (2) + 128
+  return 0
+}
