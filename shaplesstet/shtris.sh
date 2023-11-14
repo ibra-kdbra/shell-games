@@ -1,3 +1,64 @@
+# The pure shell script (sh) that implements the Tetris game following the Tetris Guideline (2009).
+#
+# The aim is to understand more about shell script and Tetris algorithms.
+#
+# [Tetris Guideline. Tetris Wiki. accessed at 2020-05-23](https://tetris.fandom.com/wiki/Tetris_Guideline).
+#
+# This script is based on bash-tetris (Author: Kirill Timofeev <kt97679@gmail.com>)
+#
+#
+# I've implemented the following
+#
+# * Hold Queue
+# * Next Queue
+# * Random Generation with Bag System
+# * Score System
+# * Variable Goal System
+# * T-Spin / Mini T-Spin
+# * Back-to-Back Bonus
+# * Extended Placement / Infinite Placement / Classic Lock Down
+# * Super / Classic Rotation System
+# * Changing the Starting Level
+# * Ghost Piece
+#
+# Enjoy :-)
+#
+# Supported Environments:
+#   Linux   sh | o
+#   FreeBSD sh | o
+#   BusyBox sh | o
+#   Solaris sh | o (Almost works)
+#
+# Github Page:
+#  
+#
+# Author:
+#   IOE <Github: ContentsViewer>
+#
+# Scripting NOTE:
+#   * We cannot use `read -s -n 1`
+#   * Any process cannot send signals to control(main) process
+#     * stty issues error -> cannot read keyboard inputs
+#
+#   * Avoid using `trap` and background `sleep` together.
+#     ```
+#       trap 'printf .' USR1
+#
+#       while true; do
+#         sleep 0.01 & wait $!
+#       done
+#     ```
+#
+#     On macOS (bash 3.2.57), an "Illegal instruction: 4" error occured
+#     and program stopped.
+#
+#   * Delete extra spaces
+#     `sed 's/ *$//' shtris >_ && mv _ shtris && chmod +x shtris`
+#
+#   * Peformance test
+#     `time sh -c 'i=0; while [ $i -lt 1000 ]; do i=$((i+1)); <TEST CODE>; done'`
+#
+
 
 set -u # non initialized variable is an error
 set -f # disable pathname expansion
