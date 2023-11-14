@@ -2417,3 +2417,9 @@ controller() {
   "$gameover" && return 1
   return 0
 }
+
+controller_interrupt() {
+  # The process that is being stopped does not terminate on WSL1
+  terminate_process "$timer_pid" "$ticker_pid"
+  exit 143
+}
