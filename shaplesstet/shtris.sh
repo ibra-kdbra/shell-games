@@ -2423,3 +2423,23 @@ controller_interrupt() {
   terminate_process "$timer_pid" "$ticker_pid"
   exit 143
 }
+
+game() {
+  # output of ticker, timer and reader is joined and piped into controller
+  (
+    ticker "$$"         & # runs as separate process
+    lockdown_timer "$$" &
+    reader "$$"
+  ) | (
+    controller
+  )
+
+  case $? in
+      0) return ;; # When Q (ESCx2) is pressed, do nothing and return.
+    143) return ;; # When CTRL-C is pressed, do nothing and return.
+  esac
+
+  # Prevent the input after the game over from being output to the terminal.
+  printf "$EXIT_FORMAT" "Press enter to continue ..."
+  read _
+}
