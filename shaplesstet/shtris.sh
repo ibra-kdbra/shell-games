@@ -2,11 +2,6 @@
 #
 # The aim is to understand more about shell script and Tetris algorithms.
 #
-# [Tetris Guideline. Tetris Wiki. accessed at 2020-05-23](https://tetris.fandom.com/wiki/Tetris_Guideline).
-#
-# This script is based on bash-tetris (Author: Kirill Timofeev <kt97679@gmail.com>)
-#
-#
 # I've implemented the following
 #
 # * Hold Queue
@@ -20,20 +15,6 @@
 # * Super / Classic Rotation System
 # * Changing the Starting Level
 # * Ghost Piece
-#
-# Enjoy :-)
-#
-# Supported Environments:
-#   Linux   sh | o
-#   FreeBSD sh | o
-#   BusyBox sh | o
-#   Solaris sh | o (Almost works)
-#
-# Github Page:
-#  
-#
-# Author:
-#   IOE <Github: ContentsViewer>
 #
 # Scripting NOTE:
 #   * We cannot use `read -s -n 1`
