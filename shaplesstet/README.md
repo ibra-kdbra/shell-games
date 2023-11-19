@@ -1,6 +1,6 @@
 # shtris
 
-The pure shell script (sh) that implements the Tetris game following the Tetris Guideline (2009).
+The pure shell script (sh) that implements the Tetris game following the Tetris Guideline (1998-2009).
 
 The aim is to understand more about shell script and Tetris algorithms.
 
@@ -25,8 +25,7 @@ I've implemented the following
 ## Usage
 
 ```sh
-# Download (v3.0.0)
-wget https://raw.githubusercontent.com/ContentsViewer/shtris/v3.0.0/shtris
+wget  https://raw.githubusercontent.com/ibra-kdbra/shell-games/v1.0/shaplesstet/shtris.sh
 chmod +x shtris
 
 ./shtris
@@ -58,10 +57,6 @@ Version:
  3.0.0
 ```
 
-</details>
-
-![shtris](https://contentsviewer.work/Master/ShellScript/Apps/Tetris/Images/shtris.jpg)
-
 Enjoy :-)
 
 ## Supported Environments
@@ -72,3 +67,7 @@ Enjoy :-)
 | FreeBSD sh  | o                |
 | BusyBox sh  | o                |
 | Solaris sh  | o (Almost works) |
+
+
+
+
