@@ -31,7 +31,6 @@ chmod +x shtris
 ./shtris
 ```
 
-
 ```shellsession
 $ ./shtris -h
 
@@ -55,7 +54,7 @@ Options:
  -V, --version  output version infromation and exit
 
 Version:
- 3.0.0
+ 1.1
 ```
 
 Enjoy :-)
