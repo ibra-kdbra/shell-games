@@ -47,7 +47,7 @@ set -f # disable pathname expansion
 # game versioin
 # should follow "Semantic Versioning 2.0.0" <https://semver.org/>
 # so that users have a clear indicator of when an upgrade will introduce breaking changes.
-VERSION='3.0.0'
+VERSION='1.1'
 
 # program name
 PROG=${0##*/}
